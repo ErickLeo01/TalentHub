@@ -148,6 +148,16 @@ TalentHubApplication.java
 
 ---
 
+## Configuração do Banco de Dados
+
+Antes de executar o projeto, configure as seguintes variáveis de ambiente:
+
+```properties
+DB_URL=jdbc:postgresql://localhost:5432/talenthub
+DB_USERNAME=seu_usuario
+DB_PASSWORD=sua_senha
+```
+
 ## 👨‍💻 Autor
 
 Desenvolvido por **Erick Leonardo**.
