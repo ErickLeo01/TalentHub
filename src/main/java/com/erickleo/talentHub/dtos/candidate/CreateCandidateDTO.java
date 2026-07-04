@@ -26,6 +26,5 @@ public record CreateCandidateDTO(
         @NotBlank(message = "Cidade não pode ser vazia")
         String city,
 
-        @Column(length = 5000)
         String curriculum
 ){ }

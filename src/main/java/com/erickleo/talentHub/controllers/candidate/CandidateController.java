@@ -44,4 +44,6 @@ public class CandidateController {
 
         return deleteCandidateUseCase.execute(idCandidate);
     }
+
+    @GetMapping("mostrarCandidato")
 }
