@@ -22,7 +22,7 @@ public class UpdateCandidateUseCase {
     public CandidateResponseDTO execute(UUID idCandidate, UpdateCandidateDTO updateCandidateDTO) {
 
         CandidateEntity candidateEntity = candidateRepository.findById(idCandidate)
-                .orElseThrow(() -> new CandidateIdNotFoundException("Candidato não encontrado"));
+                .orElseThrow(() -> new CandidateIdNotFoundException());
 
         // VERIFICAR SE O CPF JÁ PERTENCE A OUTRO CANDIDATO
         Optional<CandidateEntity> candidateByCpf =

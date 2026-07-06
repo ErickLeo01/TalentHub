@@ -16,7 +16,7 @@ public class DeleteCandidateUseCase {
 
     public String execute (UUID idCandidate) {
 
-        CandidateEntity candidateExclued = candidateRepository.findById(idCandidate).orElseThrow(() -> new CandidateIdNotFoundException("Candidato não encontrado"));
+        CandidateEntity candidateExclued = candidateRepository.findById(idCandidate).orElseThrow(CandidateIdNotFoundException::new);
 
         candidateRepository.delete(candidateExclued);
 

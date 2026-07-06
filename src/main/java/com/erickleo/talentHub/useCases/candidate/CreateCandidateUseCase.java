@@ -7,6 +7,7 @@ import com.erickleo.talentHub.exceptions.candidate.CandidateCPFAlreadyException;
 import com.erickleo.talentHub.exceptions.candidate.CandidateEmailAlreadyException;
 import com.erickleo.talentHub.repositories.CandidateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,6 +15,9 @@ public class CreateCandidateUseCase {
 
     @Autowired
     private CandidateRepository candidateRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public CandidateResponseDTO execute (CreateCandidateDTO createCandidateDTO) {
 
@@ -33,7 +37,7 @@ public class CreateCandidateUseCase {
         candidateEntity.setName(createCandidateDTO.name());
         candidateEntity.setEmail(createCandidateDTO.email());
         candidateEntity.setPassword(createCandidateDTO.password());
-        candidateEntity.setCpf(createCandidateDTO.cpf());
+        candidateEntity.setPassword(passwordEncoder.encode(createCandidateDTO.password()));
         candidateEntity.setCity(createCandidateDTO.city());
         candidateEntity.setCurriculum(createCandidateDTO.curriculum());
 

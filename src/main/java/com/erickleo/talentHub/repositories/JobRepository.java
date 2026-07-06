@@ -12,5 +12,5 @@ public interface JobRepository extends JpaRepository<JobEntity, UUID> {
 
     List<JobEntity> findByLevel(String level);
 
-    List<JobEntity> findByWage(Double wage);
+    List<JobEntity> findByWage(String wage);
 }

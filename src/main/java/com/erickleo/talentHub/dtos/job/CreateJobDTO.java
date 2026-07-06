@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-import java.math.BigDecimal;
 
 public record CreateJobDTO(
 
@@ -17,7 +16,7 @@ public record CreateJobDTO(
         String level,
 
         @NotNull(message = "O salário não pode ser nulo!")
-        BigDecimal wage,
+        String wage,
 
         @Size(max = 5000)
         String description) {
