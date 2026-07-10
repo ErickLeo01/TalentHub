@@ -8,11 +8,12 @@ O projeto está sendo desenvolvido como forma de consolidar conhecimentos em des
 
 ##  Tecnologias utilizadas
 
-
 - Java 21
 - Spring Boot
 - Spring Web
 - Spring Data JPA
+- Spring Security
+- JWT (Auth0 Java JWT)
 - Hibernate
 - Bean Validation
 - PostgreSQL
@@ -85,6 +86,18 @@ src
 
 ---
 
+### 🔐 Autenticação
+
+- ✅ Login de empresa
+- ✅ Login de candidato
+- ✅ Geração de JWT
+- ✅ Validação de JWT
+- ✅ Spring Security
+- ✅ Rotas públicas e protegidas
+- ✅ BCrypt para criptografia de senhas
+- 
+---
+
 ## 🏗️ Arquitetura
 
 O projeto segue uma arquitetura em camadas:
@@ -131,20 +144,33 @@ TalentHubApplication.java
 
 ---
 
-## 📌 Próximas funcionalidades
+## 🌐 Endpoints
 
-- [ ] Login de candidatos
-- [ ] Login de empresas
-- [ ] Autenticação JWT
-- [ ] Spring Security
-- [ ] Documentação com Swagger
-- [ ] Upload de currículo
-- [ ] Cadastro de habilidades
-- [ ] Aplicação em vagas
-- [ ] Busca de vagas
-- [ ] Busca de candidatos
-- [ ] Docker
-- [ ] Testes unitários
+### Empresa
+
+| Método | Endpoint | Descrição |
+|---------|----------|-----------|
+| POST | /empresa/criarEmpresa | Cadastrar empresa |
+| POST | /empresa/login | Login da empresa |
+| PUT | /empresa/{id} | Atualizar empresa |
+| DELETE | /empresa/{id} | Excluir empresa |
+
+### Candidato
+
+| Método | Endpoint | Descrição |
+|---------|----------|-----------|
+| POST | /candidato/criarCandidato | Cadastrar candidato |
+| POST | /candidato/login | Login do candidato |
+| PUT | /candidato/{id} | Atualizar candidato |
+| DELETE | /candidato/{id} | Excluir candidato |
+
+### Vaga
+
+| Método | Endpoint | Descrição |
+|---------|----------|-----------|
+| POST | /vaga/criarVaga | Criar vaga |
+| PUT | /vaga/{id} | Atualizar vaga |
+| DELETE | /vaga/{id} | Excluir vaga |
 
 ---
 

@@ -8,6 +8,7 @@ import com.erickleo.talentHub.exceptions.candidate.CandidateEmailAlreadyExceptio
 import com.erickleo.talentHub.exceptions.candidate.CandidateIdNotFoundException;
 import com.erickleo.talentHub.repositories.CandidateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -18,6 +19,9 @@ public class UpdateCandidateUseCase {
 
     @Autowired
     private CandidateRepository candidateRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public CandidateResponseDTO execute(UUID idCandidate, UpdateCandidateDTO updateCandidateDTO) {
 
@@ -44,7 +48,7 @@ public class UpdateCandidateUseCase {
 
         candidateEntity.setName(updateCandidateDTO.name());
         candidateEntity.setEmail(updateCandidateDTO.email());
-        candidateEntity.setPassword(updateCandidateDTO.password());
+        candidateEntity.setPassword(passwordEncoder.encode(updateCandidateDTO.password()));
         candidateEntity.setCpf(updateCandidateDTO.cpf());
         candidateEntity.setCity(updateCandidateDTO.city());
         candidateEntity.setCurriculum(updateCandidateDTO.curriculum());

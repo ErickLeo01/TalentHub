@@ -7,6 +7,7 @@ import com.erickleo.talentHub.exceptions.company.CompanyCNPJAlreadyException;
 import com.erickleo.talentHub.exceptions.company.CompanyEmailAlreadyException;
 import com.erickleo.talentHub.repositories.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +16,8 @@ public class CreateCompanyUseCase {
     @Autowired
     private CompanyRepository companyRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public CompanyResponseDTO execute(CreateCompanyDTO createCompanyDTO) {
 
@@ -35,7 +38,7 @@ public class CreateCompanyUseCase {
         companyEntity.setName(createCompanyDTO.name());
         companyEntity.setOwner(createCompanyDTO.owner());
         companyEntity.setEmail(createCompanyDTO.email());
-        companyEntity.setPassword(createCompanyDTO.password());
+        companyEntity.setPassword(passwordEncoder.encode(createCompanyDTO.password()));
         companyEntity.setCnpj(createCompanyDTO.cnpj());
         companyEntity.setDescription(createCompanyDTO.description());
 

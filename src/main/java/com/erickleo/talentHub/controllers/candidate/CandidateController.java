@@ -1,11 +1,12 @@
 package com.erickleo.talentHub.controllers.candidate;
 
-import com.erickleo.talentHub.dtos.candidate.CandidateResponseDTO;
-import com.erickleo.talentHub.dtos.candidate.CreateCandidateDTO;
-import com.erickleo.talentHub.dtos.candidate.UpdateCandidateDTO;
+import com.erickleo.talentHub.dtos.candidate.*;
+import com.erickleo.talentHub.dtos.company.LoginCompanyDTO;
+import com.erickleo.talentHub.dtos.company.LoginCompanyResponseDTO;
 import com.erickleo.talentHub.entities.CandidateEntity;
 import com.erickleo.talentHub.useCases.candidate.CreateCandidateUseCase;
 import com.erickleo.talentHub.useCases.candidate.DeleteCandidateUseCase;
+import com.erickleo.talentHub.useCases.candidate.LoginCandidateUseCase;
 import com.erickleo.talentHub.useCases.candidate.UpdateCandidateUseCase;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class CandidateController {
     @Autowired
     private DeleteCandidateUseCase deleteCandidateUseCase;
 
+    @Autowired
+    private LoginCandidateUseCase loginCandidateUseCase;
+
     @PostMapping("/criarCandidato")
     public CandidateResponseDTO createCandidate(@Valid @RequestBody CreateCandidateDTO createCandidateDTO) {
 
@@ -45,4 +49,10 @@ public class CandidateController {
         return deleteCandidateUseCase.execute(idCandidate);
     }
 
+    @PostMapping("/login")
+    public LoginCandidateResponseDTO login(
+            @Valid @RequestBody LoginCandidateDTO loginCandidateDTO) {
+
+        return loginCandidateUseCase.execute(loginCandidateDTO);
+    }
 }

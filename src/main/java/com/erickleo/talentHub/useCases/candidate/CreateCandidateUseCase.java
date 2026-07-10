@@ -38,6 +38,7 @@ public class CreateCandidateUseCase {
         candidateEntity.setEmail(createCandidateDTO.email());
         candidateEntity.setPassword(createCandidateDTO.password());
         candidateEntity.setPassword(passwordEncoder.encode(createCandidateDTO.password()));
+        candidateEntity.setCpf(createCandidateDTO.cpf());
         candidateEntity.setCity(createCandidateDTO.city());
         candidateEntity.setCurriculum(createCandidateDTO.curriculum());
 

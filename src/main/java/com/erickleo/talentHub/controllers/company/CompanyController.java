@@ -1,11 +1,9 @@
 package com.erickleo.talentHub.controllers.company;
 
-import com.erickleo.talentHub.dtos.company.CompanyResponseDTO;
-import com.erickleo.talentHub.dtos.company.CreateCompanyDTO;
-import com.erickleo.talentHub.dtos.company.UpdateCompanyDTO;
-import com.erickleo.talentHub.entities.CompanyEntity;
+import com.erickleo.talentHub.dtos.company.*;
 import com.erickleo.talentHub.useCases.company.CreateCompanyUseCase;
 import com.erickleo.talentHub.useCases.company.DeleteCompanyUseCase;
+import com.erickleo.talentHub.useCases.company.LoginCompanyUseCase;
 import com.erickleo.talentHub.useCases.company.UpdateCompanyUseCase;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +24,9 @@ public class CompanyController {
     @Autowired
     private DeleteCompanyUseCase deleteCompanyUseCase;
 
+    @Autowired
+    private LoginCompanyUseCase loginCompanyUseCase;
+
     @PostMapping("/criarEmpresa")
     public CompanyResponseDTO createCompany(@Valid @RequestBody CreateCompanyDTO createCompanyDTO) {
 
@@ -43,5 +44,12 @@ public class CompanyController {
     public String deleteCompany(@Valid @PathVariable("id") UUID idCompany) {
 
         return deleteCompanyUseCase.execute(idCompany);
+    }
+
+    @PostMapping("/login")
+    public LoginCompanyResponseDTO login(
+            @Valid @RequestBody LoginCompanyDTO loginCompanyDTO) {
+
+        return loginCompanyUseCase.execute(loginCompanyDTO);
     }
 }
