@@ -1,0 +1,14 @@
+# Arquivos compactados
+*.zip
+
+# Java / Spring (dentro da pasta back)
+back/target/
+back/*.class
+back/.idea/
+back/.settings/
+back/.classpath
+
+# Angular / Node (dentro da pasta front)
+front/node_modules/
+front/dist/
+front/.angular/
