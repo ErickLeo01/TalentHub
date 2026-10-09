@@ -1,0 +1,24 @@
+<h1>Deletar Candidato</h1>
+
+<div class="delete-card">
+  <div class="delete-icon">!</div>
+
+  <h2>Excluir cadastro</h2>
+
+  <p>Tem certeza de que deseja excluir este candidato?</p>
+
+  <p class="warning">
+    Atenção: esta ação não poderá ser desfeita.
+  </p>
+
+  <button
+    type="button"
+    class="delete-button"
+    (click)="confirmDelete()">
+    Excluir candidato
+  </button>
+
+  <a routerLink="/candidates" class="back-link">
+    Voltar para a lista de candidatos
+  </a>
+</div>

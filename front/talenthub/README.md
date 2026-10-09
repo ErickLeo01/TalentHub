@@ -1,59 +1,109 @@
-# Talenthub
+# TalentHub
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.7.
+O **TalentHub** é uma plataforma de recrutamento desenvolvida para conectar candidatos e empresas em um único sistema. A aplicação permite o gerenciamento de candidatos, empresas, vagas e candidaturas.
 
-## Development server
+O projeto está sendo desenvolvido com **Spring Boot no Back-end**, **Angular no Front-end** e **PostgreSQL** como banco de dados.
 
-To start a local development server, run:
+**Status:** Em desenvolvimento 🚧
 
-```bash
-ng serve
+## 🛠️ Tecnologias
+
+### Back-end
+- Java 21
+- Spring Boot
+- Spring Data JPA
+- Spring Security
+- JWT
+- BCrypt
+- PostgreSQL
+- Maven
+
+### Front-end
+- Angular
+- TypeScript
+- HTML
+- CSS
+- RxJS
+
+### Ferramentas
+- IntelliJ IDEA
+- Visual Studio Code
+- DBeaver
+- Apidog
+- Git e GitHub
+
+## 📌 Funcionalidades
+
+### 👤 Candidatos
+- [x] Cadastro
+- [x] Atualização de cadastro
+- [x] Exclusão de cadastro
+- [x] Busca por nome
+- [x] Login
+- [x] Candidatura em vagas
+- [ ] Listagem de candidatos no Front-end
+- [ ] Visualização de perfil
+- [ ] Interface completa de gerenciamento
+
+### 🏢 Empresas
+- [x] Cadastro
+- [x] Atualização
+- [x] Exclusão
+- [x] Busca
+- [ ] Interface completa no Front-end
+
+### 💼 Vagas
+- [x] Cadastro de vagas
+- [x] Atualização de vagas
+- [x] Exclusão de vagas
+- [x] Busca de vagas
+- [ ] Interface completa no Front-end
+
+## 🔐 Segurança
+
+A estrutura de segurança do projeto utiliza ou prevê a utilização dos seguintes recursos:
+
+- **Spring Security:** controle de autenticação e autorização.
+- **JWT (JSON Web Token):** autenticação baseada em tokens.
+- **BCrypt:** armazenamento seguro de senhas por meio de hashing.
+- **Filtros de segurança:** processamento das requisições protegidas.
+
+##  Arquitetura
+
+```text
+Angular
+   │
+   │ HTTP / JSON
+   ▼
+Spring Boot
+   │
+   ├── Controllers
+   ├── Use Cases / Services
+   ├── DTOs
+   ├── Repositories
+   └── Security
+   │
+   ▼
+PostgreSQL
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+##  Objetivo
 
-## Code scaffolding
+O objetivo do TalentHub é aplicar na prática conhecimentos de desenvolvimento Back-end e Front-end, trabalhando com APIs REST, autenticação, banco de dados, integração entre Angular e Spring Boot e organização de uma aplicação Full Stack.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 📈 Status do desenvolvimento
 
-```bash
-ng generate component component-name
-```
+O Back-end possui funcionalidades de gerenciamento de candidatos, empresas e vagas. O Front-end Angular está em desenvolvimento, com a criação dos componentes, interfaces, serviços e integração com a API REST.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+As próximas etapas incluem a conclusão das interfaces, a integração entre as telas e a API, e os testes dos fluxos completos da aplicação.
 
-```bash
-ng generate --help
-```
+## 👨‍💻 Autor
 
-## Building
+**Erick Leonardo de Lima dos Santos**
 
-To build the project run:
+Estudante de Análise e Desenvolvimento de Sistemas (ADS), com foco em desenvolvimento Back-end e aplicações Full Stack.
 
-```bash
-ng build
-```
+### 🔗 Links
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- GitHub: [ErickLeo01](https://github.com/ErickLeo01)
+- LinkedIn: [erick-leonardo87](https://www.linkedin.com/in/erick-leonardo87/)

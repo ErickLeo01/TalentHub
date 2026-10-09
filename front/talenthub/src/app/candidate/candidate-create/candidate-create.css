@@ -1,0 +1,102 @@
+/* Estilo geral da página */
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Formulário */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 480px;
+  padding: 35px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 12px 35px rgba(30, 64, 175, 0.10);
+}
+
+/* Título */
+h1 {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 0 20px;
+  color: #1d4ed8;
+  font-size: 28px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+/* Rótulos dos campos */
+label {
+  margin-top: 8px;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Campos de entrada */
+input {
+  width: 100%;
+  padding: 12px 14px;
+  box-sizing: border-box;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background-color: #f8fafc;
+  color: #0f172a;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Campo selecionado */
+input:focus {
+  border-color: #2563eb;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+/* Botão de cadastro */
+button {
+  margin-top: 20px;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background-color: #2563eb;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+/* Efeito ao passar o mouse */
+button:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+/* Efeito ao clicar */
+button:active {
+  transform: translateY(0);
+}
+
+/* Ajuste para telas pequenas */
+@media (max-width: 520px) {
+  :host {
+    padding: 20px 12px;
+  }
+
+  form {
+    padding: 24px 18px;
+  }
+
+  h1 {
+    font-size: 23px;
+  }
+}
