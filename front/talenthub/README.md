@@ -1,8 +1,8 @@
-# TalentHub
+# TalentHub 🚀
 
 O **TalentHub** é uma plataforma de recrutamento desenvolvida para conectar candidatos e empresas em um único sistema. A aplicação permite o gerenciamento de candidatos, empresas, vagas e candidaturas.
 
-O projeto está sendo desenvolvido com **Spring Boot no Back-end**, **Angular no Front-end** e **PostgreSQL** como banco de dados.
+O projeto está sendo desenvolvido como uma aplicação **Full Stack**, utilizando Spring Boot no Back-end, Angular no Front-end e PostgreSQL como banco de dados.
 
 **Status:** Em desenvolvimento 🚧
 
@@ -13,7 +13,7 @@ O projeto está sendo desenvolvido com **Spring Boot no Back-end**, **Angular no
 - Spring Boot
 - Spring Data JPA
 - Spring Security
-- JWT
+- JWT (JSON Web Token)
 - BCrypt
 - PostgreSQL
 - Maven
@@ -21,8 +21,8 @@ O projeto está sendo desenvolvido com **Spring Boot no Back-end**, **Angular no
 ### Front-end
 - Angular
 - TypeScript
-- HTML
-- CSS
+- HTML5
+- CSS3
 - RxJS
 
 ### Ferramentas
@@ -35,51 +35,78 @@ O projeto está sendo desenvolvido com **Spring Boot no Back-end**, **Angular no
 ## 📌 Funcionalidades
 
 ### 👤 Candidatos
-- [x] Cadastro
+
+**Back-end**
+- [x] Cadastro de candidatos
 - [x] Atualização de cadastro
 - [x] Exclusão de cadastro
 - [x] Busca por nome
-- [x] Login
+- [x] Login com autenticação JWT
 - [x] Candidatura em vagas
-- [ ] Listagem de candidatos no Front-end
-- [ ] Visualização de perfil
+
+**Front-end**
+- [x] Serviço de integração com a API
+- [x] Componente de login
+- [x] Componente de atualização de cadastro
+- [ ] Finalizar e integrar as telas de candidatos
+- [ ] Visualização do próprio perfil
 - [ ] Interface completa de gerenciamento
 
 ### 🏢 Empresas
-- [x] Cadastro
-- [x] Atualização
-- [x] Exclusão
-- [x] Busca
-- [ ] Interface completa no Front-end
+
+**Back-end**
+- [x] Cadastro de empresas
+- [x] Atualização de cadastro
+- [x] Exclusão de cadastro
+- [x] Busca de empresas
+- [x] Login com autenticação JWT
+
+**Front-end**
+- [x] Serviço de integração com a API
+- [ ] Finalizar formulário de cadastro
+- [ ] Implementar login de empresas
+- [ ] Implementar atualização e exclusão de cadastro
+- [ ] Implementar listagem e busca de empresas
 
 ### 💼 Vagas
+
+**Back-end**
 - [x] Cadastro de vagas
 - [x] Atualização de vagas
 - [x] Exclusão de vagas
 - [x] Busca de vagas
-- [ ] Interface completa no Front-end
+
+**Front-end**
+- [ ] Implementar listagem e busca de vagas
+- [ ] Implementar cadastro e gerenciamento de vagas
+- [ ] Integrar as telas com a API
+- [ ] Implementar a interface de candidaturas
 
 ## 🔐 Segurança
 
-A estrutura de segurança do projeto utiliza ou prevê a utilização dos seguintes recursos:
+O projeto utiliza recursos de autenticação e autorização para proteger as operações da API.
 
-- **Spring Security:** controle de autenticação e autorização.
+- **Spring Security:** controle de autenticação e autorização das requisições.
 - **JWT (JSON Web Token):** autenticação baseada em tokens.
-- **BCrypt:** armazenamento seguro de senhas por meio de hashing.
-- **Filtros de segurança:** processamento das requisições protegidas.
+- **BCrypt:** hashing de senhas para armazenamento mais seguro.
+- **Filtros de segurança:** validação dos tokens e configuração do contexto de autenticação.
+- **Controle de acesso por perfil:** diferenciação entre candidatos e empresas.
+- **Validação de propriedade:** regras para restringir operações aos recursos autorizados.
 
-##  Arquitetura
+## 🏗️ Arquitetura
+
+O TalentHub utiliza uma arquitetura na qual o Front-end Angular se comunica com a API REST desenvolvida em Spring Boot, que acessa o banco de dados PostgreSQL.
 
 ```text
 Angular
    │
    │ HTTP / JSON
    ▼
-Spring Boot
+Spring Boot — API REST
    │
    ├── Controllers
-   ├── Use Cases / Services
    ├── DTOs
+   ├── Use Cases / Services
    ├── Repositories
    └── Security
    │
@@ -87,15 +114,28 @@ Spring Boot
 PostgreSQL
 ```
 
-##  Objetivo
+## 🎯 Objetivo do projeto
 
-O objetivo do TalentHub é aplicar na prática conhecimentos de desenvolvimento Back-end e Front-end, trabalhando com APIs REST, autenticação, banco de dados, integração entre Angular e Spring Boot e organização de uma aplicação Full Stack.
+O objetivo do TalentHub é aplicar conhecimentos de desenvolvimento Back-end e Front-end na construção de uma aplicação Full Stack.
 
-## 📈 Status do desenvolvimento
+O projeto permite praticar:
 
-O Back-end possui funcionalidades de gerenciamento de candidatos, empresas e vagas. O Front-end Angular está em desenvolvimento, com a criação dos componentes, interfaces, serviços e integração com a API REST.
+- Desenvolvimento de APIs REST com Java e Spring Boot.
+- Mapeamento de entidades e relacionamentos com Spring Data JPA.
+- Modelagem e persistência de dados com PostgreSQL.
+- Autenticação e autorização utilizando Spring Security e JWT.
+- Desenvolvimento de interfaces com Angular e TypeScript.
+- Integração entre Front-end e Back-end.
+- Versionamento de código com Git e GitHub.
 
-As próximas etapas incluem a conclusão das interfaces, a integração entre as telas e a API, e os testes dos fluxos completos da aplicação.
+## 📈 Próximas etapas
+
+- [ ] Finalizar os componentes do Front-end.
+- [ ] Concluir a integração entre Angular e Spring Boot.
+- [ ] Revisar a navegação e o controle de acesso por perfil.
+- [ ] Melhorar a responsividade e a experiência do usuário.
+- [ ] Realizar testes integrados dos principais fluxos.
+- [ ] Preparar a aplicação para deploy.
 
 ## 👨‍💻 Autor
 
@@ -105,5 +145,9 @@ Estudante de Análise e Desenvolvimento de Sistemas (ADS), com foco em desenvolv
 
 ### 🔗 Links
 
-- GitHub: [ErickLeo01](https://github.com/ErickLeo01)
-- LinkedIn: [erick-leonardo87](https://www.linkedin.com/in/erick-leonardo87/)
+- **GitHub:** [ErickLeo01](https://github.com/ErickLeo01)
+- **LinkedIn:** [erick-leonardo87](https://www.linkedin.com/in/erick-leonardo87/)
+
+---
+
+*Projeto desenvolvido para fins de aprendizado e evolução prática em desenvolvimento de software.*
