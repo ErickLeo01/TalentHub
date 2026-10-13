@@ -1,1 +1,42 @@
-<p>company-delete works!</p>
+<div class="delete-container">
+
+  <h1>Excluir empresa</h1>
+
+  <div class="delete-card">
+
+    <div class="delete-icon">!</div>
+
+    <h2>Excluir cadastro</h2>
+
+    <p>
+      Tem certeza de que deseja excluir esta empresa?
+    </p>
+
+    <p class="warning">
+      Atenção: esta ação não poderá ser desfeita.
+    </p>
+
+    <div *ngIf="errorMessage" class="message error">
+      {{ errorMessage }}
+    </div>
+
+    <div *ngIf="successMessage" class="message success">
+      {{ successMessage }}
+    </div>
+
+    <button
+      type="button"
+      class="delete-button"
+      [disabled]="!companyId || loading"
+      (click)="confirmDelete()"
+    >
+      {{ loading ? 'Excluindo...' : 'Excluir empresa' }}
+    </button>
+
+    <a routerLink="/empresas" class="back-link">
+      Voltar para a lista de empresas
+    </a>
+
+  </div>
+
+</div>

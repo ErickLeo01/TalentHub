@@ -1,1 +1,36 @@
-<p>company-list works!</p>
+
+<h1>Lista de empresas</h1>
+
+<p *ngIf="loading">Carregando empresas...</p>
+
+<p *ngIf="errorMessage" class="error-message">
+  {{ errorMessage }}
+</p>
+
+<p *ngIf="!loading && !errorMessage && companies.length === 0">
+  Nenhuma empresa encontrada.
+</p>
+
+<div
+  class="company-list"
+  *ngIf="!loading && !errorMessage && companies.length > 0"
+>
+  <div class="company-card" *ngFor="let company of companies">
+
+    <h2>{{ company.name }}</h2>
+
+    <p class="company-email">{{ company.email }}</p>
+
+    <p class="company-description">
+      {{ company.description || 'Nenhuma descrição informada.' }}
+    </p>
+
+    <button
+      type="button"
+      (click)="updateCompany(company)"
+    >
+      Atualizar cadastro
+    </button>
+
+  </div>
+</div>

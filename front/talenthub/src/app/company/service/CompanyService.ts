@@ -39,4 +39,9 @@ export class CompanyService {
   public loginCompany(companyLogin: CompanyLoginDTO): Observable<CompanyLoginResponseDTO> {
     return this.http.post<CompanyLoginResponseDTO>(`${this.apiUrl}/login`, companyLogin);
   }
+
+
+public findMyProfile(): Observable<CompanyResponseDTO> {
+  return this.http.get<CompanyResponseDTO>(`${this.apiUrl}/me`);
+}
 }

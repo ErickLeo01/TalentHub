@@ -1,6 +1,8 @@
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
 import { CandidateDTO } from '../interface/candidate-dto.interface';
 import { CandidateUpdateDTO } from '../interface/candidate-update-dto.interface';
 import { CandidateResponseDTO } from '../interface/candidate-response.interface';
@@ -16,7 +18,9 @@ export class CandidateService {
 
   constructor(private http: HttpClient) {}
 
-  public createCandidate(candidate: CandidateDTO): Observable<CandidateResponseDTO> {
+  public createCandidate(
+    candidate: CandidateDTO
+  ): Observable<CandidateResponseDTO> {
     return this.http.post<CandidateResponseDTO>(
       `${this.apiUrl}/criar`,
       candidate
@@ -39,20 +43,35 @@ export class CandidateService {
     );
   }
 
-  public findCandidateByName(name: string): Observable<CandidateResponseDTO[]> {
+  public findCandidateByName(
+    name: string
+  ): Observable<CandidateResponseDTO[]> {
     return this.http.get<CandidateResponseDTO[]>(
       `${this.apiUrl}/buscar?name=${encodeURIComponent(name)}`
     );
   }
 
-  public findCandidateById(candidateId: string): Observable<CandidateResponseDTO> {
+  public findCandidateById(
+    candidateId: string
+  ): Observable<CandidateResponseDTO> {
     return this.http.get<CandidateResponseDTO>(
       `${this.apiUrl}/${candidateId}`
     );
   }
 
-  public loginCandidate(candidateLogin: CandidateLoginDTO): Observable<CandidateLoginResponseDTO> {
-    return this.http.post<CandidateLoginResponseDTO>(`${this.apiUrl}/login`, candidateLogin);
+  // Busca o perfil do candidato autenticado.
+  public findMyProfile(): Observable<CandidateResponseDTO> {
+    return this.http.get<CandidateResponseDTO>(
+      `${this.apiUrl}/me`
+    );
   }
 
+  public loginCandidate(
+    candidateLogin: CandidateLoginDTO
+  ): Observable<CandidateLoginResponseDTO> {
+    return this.http.post<CandidateLoginResponseDTO>(
+      `${this.apiUrl}/login`,
+      candidateLogin
+    );
+  }
 }

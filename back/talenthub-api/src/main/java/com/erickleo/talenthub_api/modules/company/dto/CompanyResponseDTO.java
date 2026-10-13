@@ -1,4 +1,6 @@
 package com.erickleo.talenthub_api.modules.company.dto;
 
-public record CompanyResponseDTO(String name, String email, String description, String address) {
+import java.util.UUID;
+
+public record CompanyResponseDTO(UUID id, String name, String email, String description, String address, String cnpj) {
 }

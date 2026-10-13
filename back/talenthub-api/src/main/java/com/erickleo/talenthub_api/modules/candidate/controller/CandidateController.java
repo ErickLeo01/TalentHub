@@ -1,4 +1,3 @@
-
 package com.erickleo.talenthub_api.modules.candidate.controller;
 
 import com.erickleo.talenthub_api.modules.candidate.dto.CandidateDTO;
@@ -10,9 +9,12 @@ import com.erickleo.talenthub_api.modules.candidate.service.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.UUID;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/candidato")
@@ -78,4 +80,42 @@ public class CandidateController {
     public CandidateResponseDTO searchId(@PathVariable UUID id) {
         return candidateFindByIdUseCase.findCandidateById(id);
     }
+
+    // Busca o perfil do candidato autenticado pelo JWT.
+    @GetMapping("/me")
+    public CandidateResponseDTO findMyProfile() {
+
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
+
+        // Verifica se existe um usuário autenticado.
+        if (authentication == null
+                || !authentication.isAuthenticated()
+                || authentication.getName() == null
+                || authentication.getAuthorities().stream()
+                .noneMatch(authority ->
+                        "ROLE_CANDIDATE".equals(authority.getAuthority()))) {
+
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN,
+                    "Acesso permitido somente a candidatos autenticados."
+            );
+        }
+
+        // Obtém o ID do candidato a partir da autenticação.
+        UUID candidateId;
+
+        try {
+            candidateId = UUID.fromString(authentication.getName());
+        } catch (IllegalArgumentException exception) {
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED,
+                    "Identificação do candidato inválida."
+            );
+        }
+
+        // Busca os dados do candidato no banco.
+        return candidateFindByIdUseCase.findCandidateById(candidateId);
+    }
+
 }

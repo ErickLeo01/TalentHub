@@ -1,0 +1,162 @@
+/* Área principal */
+.company-container {
+  width: 90%;
+  max-width: 650px;
+  margin: 40px auto;
+  padding: 32px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
+}
+
+/* Título */
+.company-container h1 {
+  margin: 0 0 10px;
+  color: #173b70;
+  font-size: 28px;
+  text-align: center;
+}
+
+/* Texto de apresentação */
+.company-container p {
+  margin-bottom: 28px;
+  color: #64748b;
+  font-size: 15px;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* Grupos de campos */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+/* Rótulos */
+.form-group label {
+  margin-bottom: 8px;
+  color: #26364a;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Campos de texto */
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 7px;
+  background-color: #ffffff;
+  color: #1e293b;
+  font-family: inherit;
+  font-size: 15px;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Área de descrição */
+.form-group textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+/* Destaque ao selecionar um campo */
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+/* Texto auxiliar da senha */
+.form-group small {
+  margin-top: 7px;
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* Área dos botões */
+.form-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+}
+
+/* Botão de salvar */
+.form-actions button {
+  width: 100%;
+  padding: 13px 20px;
+  border: none;
+  border-radius: 7px;
+  background-color: #2563eb;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+/* Efeito ao passar o mouse */
+.form-actions button:hover:not(:disabled) {
+  background-color: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+/* Botão desabilitado */
+.form-actions button:disabled {
+  background-color: #94a3b8;
+  cursor: not-allowed;
+}
+
+/* Mensagens gerais */
+.message {
+  margin-bottom: 20px;
+  padding: 12px 14px;
+  border-radius: 7px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Mensagem de erro */
+.message.error {
+  border: 1px solid #fecaca;
+  background-color: #fef2f2;
+  color: #b91c1c;
+}
+
+/* Mensagem de sucesso */
+.message.success {
+  border: 1px solid #bbf7d0;
+  background-color: #f0fdf4;
+  color: #166534;
+}
+
+/* Adaptação para celulares */
+@media (max-width: 600px) {
+  .company-container {
+    width: 94%;
+    margin: 20px auto;
+    padding: 22px 18px;
+  }
+
+  .company-container h1 {
+    font-size: 24px;
+  }
+
+  .company-container p {
+    font-size: 14px;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    font-size: 16px;
+  }
+
+  .form-actions button {
+    padding: 14px;
+  }
+}

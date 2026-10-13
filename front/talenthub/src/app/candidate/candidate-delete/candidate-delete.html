@@ -1,24 +1,46 @@
-<h1>Deletar Candidato</h1>
+<div class="delete-container">
 
-<div class="delete-card">
-  <div class="delete-icon">!</div>
+  <h1>Excluir candidato</h1>
 
-  <h2>Excluir cadastro</h2>
+  <div class="delete-card">
 
-  <p>Tem certeza de que deseja excluir este candidato?</p>
+    <div class="delete-icon">!</div>
 
-  <p class="warning">
-    Atenção: esta ação não poderá ser desfeita.
-  </p>
+    <h2>Excluir cadastro</h2>
 
-  <button
-    type="button"
-    class="delete-button"
-    (click)="confirmDelete()">
-    Excluir candidato
-  </button>
+    <p>
+      Tem certeza de que deseja excluir este candidato?
+    </p>
 
-  <a routerLink="/candidates" class="back-link">
-    Voltar para a lista de candidatos
-  </a>
+    <p class="warning">
+      Atenção: esta ação não poderá ser desfeita.
+    </p>
+
+    <!-- Mensagem de erro -->
+    <div *ngIf="errorMessage" class="message error">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Mensagem de sucesso -->
+    <div *ngIf="successMessage" class="message success">
+      {{ successMessage }}
+    </div>
+
+    <!-- Botão de exclusão -->
+    <button
+      type="button"
+      class="delete-button"
+      [disabled]="!candidateId || loading"
+      (click)="confirmDelete()"
+    >
+      {{ loading ? 'Excluindo...' : 'Excluir candidato' }}
+    </button>
+
+    <!-- Link para retornar à lista -->
+    <a routerLink="/candidatos" class="back-link">
+      Voltar para a lista de candidatos
+    </a>
+
+  </div>
+
 </div>

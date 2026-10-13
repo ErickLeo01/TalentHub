@@ -1,1 +1,113 @@
-<p>company-update works!</p>
+<div class="company-container">
+
+  <h1>Atualizar cadastro</h1>
+  <p>Edite os dados da sua empresa no TalentHub.</p>
+
+  <!-- Mensagem enquanto os dados são carregados -->
+  <div *ngIf="loading" class="message">
+    Carregando dados da empresa...
+  </div>
+
+  <!-- Mensagem de erro -->
+  <div *ngIf="errorMessage" class="message error">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Mensagem de sucesso -->
+  <div *ngIf="message" class="message success">
+    {{ message }}
+  </div>
+
+  <!-- Formulário de atualização -->
+  <form
+    *ngIf="!loading && !errorMessage"
+    #companyForm="ngForm"
+    (ngSubmit)="updateCompany()"
+  >
+
+    <div class="form-group">
+      <label for="name">Nome da empresa</label>
+      <input
+        id="name"
+        type="text"
+        name="name"
+        [(ngModel)]="company.name"
+        placeholder="Digite o nome da empresa"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="email">E-mail</label>
+      <input
+        id="email"
+        type="email"
+        name="email"
+        [(ngModel)]="company.email"
+        placeholder="empresa@exemplo.com"
+        required
+        email
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Nova senha</label>
+      <input
+        id="password"
+        type="password"
+        name="password"
+        [(ngModel)]="company.password"
+        placeholder="Deixe em branco para manter a senha atual"
+        minlength="6"
+      />
+      <small>
+        Preencha somente se desejar alterar sua senha.
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label for="cnpj">CNPJ</label>
+      <input
+        id="cnpj"
+        type="text"
+        name="cnpj"
+        [(ngModel)]="company.cnpj"
+        placeholder="Digite o CNPJ"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="address">Endereço</label>
+      <input
+        id="address"
+        type="text"
+        name="address"
+        [(ngModel)]="company.address"
+        placeholder="Digite o endereço da empresa"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="description">Descrição</label>
+      <textarea
+        id="description"
+        name="description"
+        [(ngModel)]="company.description"
+        placeholder="Descreva sua empresa"
+        rows="4"
+      ></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button
+        type="submit"
+        [disabled]="companyForm.invalid || saving"
+      >
+        {{ saving ? 'Salvando...' : 'Salvar alterações' }}
+      </button>
+    </div>
+
+  </form>
+
+</div>

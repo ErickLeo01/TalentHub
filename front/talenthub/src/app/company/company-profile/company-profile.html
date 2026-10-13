@@ -1,1 +1,39 @@
-<p>company-profile works!</p>
+
+<h1>Meu perfil empresarial</h1>
+
+<p *ngIf="loading" class="loading-message">
+  Carregando perfil da empresa...
+</p>
+
+<p *ngIf="errorMessage" class="error-message">
+  {{ errorMessage }}
+</p>
+
+<div
+  class="profile-card"
+  *ngIf="!loading && !errorMessage && company"
+>
+  <h2>{{ company.name }}</h2>
+
+  <p class="company-email">
+    <strong>E-mail:</strong> {{ company.email }}
+  </p>
+
+  <p class="company-cnpj">
+    <strong>CNPJ:</strong> {{ company.cnpj }}
+  </p>
+
+  <p class="company-address">
+    <strong>Endereço:</strong>
+    {{ company.address || 'Nenhum endereço informado.' }}
+  </p>
+
+  <p class="company-description">
+    <strong>Descrição:</strong>
+    {{ company.description || 'Nenhuma descrição informada.' }}
+  </p>
+
+  <button type="button" (click)="updateCompany()">
+    Atualizar cadastro
+  </button>
+</div>

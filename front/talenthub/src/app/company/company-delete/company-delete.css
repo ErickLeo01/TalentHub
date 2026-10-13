@@ -1,0 +1,162 @@
+/* Área principal do componente */
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 30px 20px;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #eef4ff, #f8faff);
+  font-family: Arial, Helvetica, sans-serif;
+  color: #1e293b;
+}
+
+/* Container da página */
+.delete-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* Título da página */
+h1 {
+  margin: 0 0 25px;
+  color: #1d4ed8;
+  text-align: center;
+  font-size: 28px;
+}
+
+/* Cartão de exclusão */
+.delete-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 430px;
+  padding: 32px;
+  box-sizing: border-box;
+  border: 1px solid #fecaca;
+  border-radius: 16px;
+  background-color: #ffffff;
+  box-shadow: 0 8px 24px rgba(30, 64, 175, 0.10);
+  text-align: center;
+}
+
+/* Ícone de alerta */
+.delete-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background-color: #fee2e2;
+  color: #dc2626;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+/* Subtítulo do cartão */
+h2 {
+  margin: 18px 0 8px;
+  color: #1e293b;
+  font-size: 22px;
+}
+
+/* Texto do cartão */
+.delete-card p {
+  line-height: 1.6;
+}
+
+/* Aviso sobre a exclusão */
+.warning {
+  margin: 5px 0 20px;
+  color: #b91c1c;
+  font-size: 14px;
+}
+
+/* Botão de exclusão */
+.delete-button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background-color: #dc2626;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+/* Efeito ao passar o mouse */
+.delete-button:hover:not(:disabled) {
+  background-color: #b91c1c;
+  transform: translateY(-1px);
+}
+
+/* Botão desabilitado */
+.delete-button:disabled {
+  background-color: #fca5a5;
+  cursor: not-allowed;
+}
+
+/* Destaque para navegação por teclado */
+.delete-button:focus-visible,
+.back-link:focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: 3px;
+}
+
+/* Link para voltar à lista */
+.back-link {
+  margin-top: 20px;
+  color: #2563eb;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+/* Efeito do link */
+.back-link:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+/* Mensagens de feedback */
+.message {
+  width: 100%;
+  margin-bottom: 16px;
+  padding: 12px;
+  box-sizing: border-box;
+  border-radius: 7px;
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+/* Mensagem de erro */
+.message.error {
+  border: 1px solid #fecaca;
+  background-color: #fef2f2;
+  color: #b91c1c;
+}
+
+/* Mensagem de sucesso */
+.message.success {
+  border: 1px solid #bbf7d0;
+  background-color: #f0fdf4;
+  color: #166534;
+}
+
+/* Adaptação para celulares */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 24px;
+  }
+
+  .delete-card {
+    padding: 25px 20px;
+  }
+}

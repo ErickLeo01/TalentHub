@@ -32,6 +32,9 @@ public class CompanyController {
     @Autowired
     private CompanyLoginUseCase companyLoginUseCase;
 
+    @Autowired
+    private CompanyFindByIdUseCase companyFindByIdUseCase;
+
     @PostMapping("/criar")
     public CompanyResponseDTO createCompany(@Valid @RequestBody CompanyDTO companyDTO) {
         return companyCreateUseCase.createCompany(companyDTO);

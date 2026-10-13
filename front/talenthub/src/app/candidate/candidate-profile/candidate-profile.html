@@ -1,1 +1,27 @@
-<p>candidate-profile works!</p>
+
+<h1>Meu perfil</h1>
+
+<p *ngIf="loading" class="loading-message">
+  Carregando perfil do candidato...
+</p>
+
+<p *ngIf="errorMessage" class="error-message">
+  {{ errorMessage }}
+</p>
+
+<div
+  class="profile-card"
+  *ngIf="!loading && !errorMessage && candidate"
+>
+  <h2>{{ candidate.name }}</h2>
+
+  <p class="candidate-email">{{ candidate.email }}</p>
+
+  <p class="candidate-description">
+    {{ candidate.description || 'Nenhuma descrição informada.' }}
+  </p>
+
+  <button type="button" (click)="updateCandidate()">
+    Atualizar cadastro
+  </button>
+</div>
