@@ -26,6 +26,7 @@ public class CandidateFindByNameUseCase {
 
         return candidates.stream()
                 .map(candidate -> new CandidateResponseDTO(
+                        candidate.getId(),
                         candidate.getName(),
                         candidate.getEmail(),
                         candidate.getDescription()

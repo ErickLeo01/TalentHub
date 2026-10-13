@@ -1,1 +1,86 @@
-<p>company-create works!</p>
+```html
+<div class="company-container">
+  <h1>Cadastrar empresa</h1>
+  <p>Crie sua conta para divulgar vagas no TalentHub.</p>
+
+  <form #companyForm="ngForm" (ngSubmit)="createCompany()">
+
+    <div class="form-group">
+      <label for="name">Nome da empresa</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        [(ngModel)]="company.name"
+        placeholder="Digite o nome da empresa"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="email">E-mail corporativo</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        [(ngModel)]="company.email"
+        placeholder="empresa@exemplo.com"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Senha</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        [(ngModel)]="company.password"
+        placeholder="Crie uma senha"
+        required
+        minlength="8"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="cnpj">CNPJ</label>
+      <input
+        type="text"
+        id="cnpj"
+        name="cnpj"
+        [(ngModel)]="company.cnpj"
+        placeholder="Digite o CNPJ"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="address">Endereço</label>
+      <input
+        type="text"
+        id="address"
+        name="address"
+        [(ngModel)]="company.address"
+        placeholder="Endereço da empresa"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="description">Descrição da empresa</label>
+      <textarea
+        id="description"
+        name="description"
+        [(ngModel)]="company.description"
+        placeholder="Conte um pouco sobre a empresa"
+        rows="4"
+      ></textarea>
+    </div>
+
+    <button type="submit" [disabled]="companyForm.invalid">
+      Cadastrar empresa
+    </button>
+
+  </form>
+</div>
+```

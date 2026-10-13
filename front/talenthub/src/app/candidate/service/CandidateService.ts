@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
 import { CandidateDTO } from '../interface/candidate-dto.interface';
-import { CandidateResponseDTO } from '../interface/candidate-resp
+import { CandidateUpdateDTO } from '../interface/candidate-update-dto.interface';
+import { CandidateResponseDTO } from '../interface/candidate-response.interface';
+import { CandidateLoginDTO } from '../interface/candidate-login.interface';
+import { CandidateLoginResponseDTO } from '../interface/candidate-login-interface-response';
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +16,7 @@ export class CandidateService {
 
   constructor(private http: HttpClient) {}
 
-  public createCandidate(
-    candidate: CandidateDTO
-  ): Observable<CandidateResponseDTO> {
+  public createCandidate(candidate: CandidateDTO): Observable<CandidateResponseDTO> {
     return this.http.post<CandidateResponseDTO>(
       `${this.apiUrl}/criar`,
       candidate
@@ -25,7 +25,7 @@ export class CandidateService {
 
   public updateCandidate(
     candidateId: string,
-    candidate: CandidateDTO
+    candidate: CandidateUpdateDTO
   ): Observable<CandidateResponseDTO> {
     return this.http.put<CandidateResponseDTO>(
       `${this.apiUrl}/atualizar/${candidateId}`,
@@ -33,19 +33,26 @@ export class CandidateService {
     );
   }
 
-  public deleteCandidate(
-    candidateId: string
-  ): Observable<string> {
+  public deleteCandidate(candidateId: string): Observable<string> {
     return this.http.delete<string>(
       `${this.apiUrl}/deletar/${candidateId}`
     );
   }
 
-  public findCandidateByName(
-    name: string
-  ): Observable<CandidateResponseDTO[]> {
+  public findCandidateByName(name: string): Observable<CandidateResponseDTO[]> {
     return this.http.get<CandidateResponseDTO[]>(
       `${this.apiUrl}/buscar?name=${encodeURIComponent(name)}`
     );
   }
+
+  public findCandidateById(candidateId: string): Observable<CandidateResponseDTO> {
+    return this.http.get<CandidateResponseDTO>(
+      `${this.apiUrl}/${candidateId}`
+    );
+  }
+
+  public loginCandidate(candidateLogin: CandidateLoginDTO): Observable<CandidateLoginResponseDTO> {
+    return this.http.post<CandidateLoginResponseDTO>(`${this.apiUrl}/login`, candidateLogin);
+  }
+
 }

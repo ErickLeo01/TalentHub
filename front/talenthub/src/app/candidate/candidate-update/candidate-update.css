@@ -1,102 +1,130 @@
+/* Estrutura geral */
 :host {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  display: block;
   min-height: 100vh;
   padding: 40px 20px;
-  box-sizing: border-box;
-  background: linear-gradient(135deg, #eef4ff, #f8faff);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f3f6fb;
   color: #1e293b;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Título */
 h1 {
-  width: 100%;
-  max-width: 500px;
-  margin: 0 0 25px;
-  text-align: center;
-  font-size: 28px;
+  max-width: 650px;
+  margin: 0 auto 25px;
   color: #1d4ed8;
+  font-size: 28px;
+  text-align: center;
 }
 
+/* Formulário */
 form {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 100%;
-  max-width: 500px;
+  max-width: 600px;
+  margin: 0 auto;
   padding: 30px;
-  box-sizing: border-box;
   background-color: #ffffff;
-  border: 1px solid #dbeafe;
+  border: 1px solid #e2e8f0;
   border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(30, 64, 175, 0.10);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
 }
 
+/* Rótulos */
 label {
   margin-top: 8px;
-  font-size: 14px;
-  font-weight: bold;
   color: #334155;
+  font-size: 14px;
+  font-weight: 600;
 }
 
-input, textarea {
+/* Campos de entrada */
+input,
+textarea {
   width: 100%;
-  padding: 12px;
   box-sizing: border-box;
+  padding: 12px 14px;
   border: 1px solid #cbd5e1;
   border-radius: 8px;
-  background-color: #f8fafc;
+  background-color: #ffffff;
   color: #1e293b;
   font-family: inherit;
-  font-size: 14px;
-  outline: none;
+  font-size: 15px;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 input:focus,
 textarea:focus {
+  outline: none;
   border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
-  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #94a3b8;
 }
 
 textarea {
-  min-height: 120px;
+  min-height: 130px;
   resize: vertical;
 }
 
+/* Botões */
 button {
-  margin-top: 18px;
-  padding: 14px;
+  padding: 12px 18px;
   border: none;
   border-radius: 8px;
   background-color: #2563eb;
   color: #ffffff;
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s, transform 0.2s;
 }
 
-button:hover {
+form button {
+  margin-top: 16px;
+}
+
+button:hover:not(:disabled) {
   background-color: #1d4ed8;
   transform: translateY(-1px);
 }
 
-button:active {
-  transform: translateY(0);
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
-button:focus-visible {
-  outline: 3px solid #93c5fd;
-  outline-offset: 3px;
+/* Botão voltar */
+:host > button {
+  display: block;
+  max-width: 600px;
+  margin: 16px auto 0;
+  background-color: #64748b;
 }
 
+:host > button:hover:not(:disabled) {
+  background-color: #475569;
+}
+
+/* Mensagens de carregamento, sucesso e erro */
+p {
+  max-width: 600px;
+  margin: 12px auto;
+  line-height: 1.5;
+}
+
+p:empty {
+  display: none;
+}
+
+/* Responsividade para celulares */
 @media (max-width: 600px) {
   :host {
-    padding: 25px 15px;
+    padding: 25px 14px;
   }
 
   h1 {
@@ -105,5 +133,12 @@ button:focus-visible {
 
   form {
     padding: 22px 18px;
+    border-radius: 12px;
+  }
+
+  input,
+  textarea,
+  button {
+    font-size: 14px;
   }
 }

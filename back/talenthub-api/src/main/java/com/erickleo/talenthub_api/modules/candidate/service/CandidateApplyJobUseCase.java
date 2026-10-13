@@ -7,9 +7,10 @@ import com.erickleo.talenthub_api.modules.job.entity.JobEntity;
 import com.erickleo.talenthub_api.modules.job.exception.JobNotFoundException;
 import com.erickleo.talenthub_api.modules.job.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -22,37 +23,49 @@ public class CandidateApplyJobUseCase {
     @Autowired
     private JobRepository jobRepository;
 
+    @Transactional
     public String applyJob(UUID jobId) {
 
-        // Pega o UUID do candidato autenticado pelo JWT.
-        String userId = SecurityContextHolder.getContext()
-                .getAuthentication()
-                .getName();
+        // Obtém o usuário autenticado.
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
 
-        UUID candidateId = UUID.fromString(userId);
+        // Confere se é um candidato autenticado.
+        if (authentication == null
+                || !authentication.isAuthenticated()
+                || authentication.getName() == null
+                || authentication.getAuthorities().stream()
+                .noneMatch(authority ->
+                        "ROLE_CANDIDATE".equals(authority.getAuthority()))) {
+            throw new IllegalStateException(
+                    "Somente candidatos autenticados podem se candidatar."
+            );
+        }
+
+        // Obtém o UUID do candidato pelo token.
+        UUID candidateId = UUID.fromString(authentication.getName());
 
         // Busca o candidato.
-        CandidateEntity candidateEntity = candidateRepository.findById(candidateId)
-                .orElseThrow(CandidateNotFoundException::new);
+        CandidateEntity candidateEntity =
+                candidateRepository.findById(candidateId)
+                        .orElseThrow(CandidateNotFoundException::new);
 
         // Busca a vaga.
         JobEntity jobEntity = jobRepository.findById(jobId)
                 .orElseThrow(JobNotFoundException::new);
 
-        // Cria a lista caso o candidato ainda não tenha vagas.
+        // Inicializa a lista, se necessário.
         if (candidateEntity.getJobs() == null) {
             candidateEntity.setJobs(new ArrayList<>());
         }
 
-        // Verifica se o candidato já se candidatou.
+        // Impede uma candidatura duplicada nesta verificação.
         if (candidateEntity.getJobs().contains(jobEntity)) {
             return "Você já se candidatou a esta vaga.";
         }
 
-        // Adiciona a vaga à lista de vagas do candidato.
+        // Registra a candidatura.
         candidateEntity.getJobs().add(jobEntity);
-
-        // Salva a candidatura.
         candidateRepository.save(candidateEntity);
 
         return "Candidatura realizada com sucesso.";

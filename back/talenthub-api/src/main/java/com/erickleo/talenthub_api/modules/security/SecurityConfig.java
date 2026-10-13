@@ -25,20 +25,25 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(
+            HttpSecurity http
+    ) throws Exception {
 
         http
-                // Desativa o CSRF porque tá usando uma API REST com JWT.
+                // Desativa o CSRF para esta API que utiliza JWT.
                 .csrf(csrf -> csrf.disable())
 
-                // Não cria sessão para guardar autenticação.
+                // Não utiliza sessão HTTP para manter a autenticação.
                 .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        session.sessionCreationPolicy(
+                                SessionCreationPolicy.STATELESS
+                        )
+                )
 
                 // Define as rotas públicas e protegidas.
                 .authorizeHttpRequests(auth -> auth
 
-                        // Rotas públicas.
+                        // Rotas públicas: login e cadastro.
                         .requestMatchers(
                                 "/candidato/login",
                                 "/empresa/login",
@@ -46,19 +51,19 @@ public class SecurityConfig {
                                 "/empresa/criar"
                         ).permitAll()
 
-                        // Apenas candidatos podem se candidatar às vagas.
+                        // Apenas candidatos podem se candidatar a vagas.
                         .requestMatchers(
                                 HttpMethod.POST,
                                 "/candidato/candidatar/**"
                         ).hasRole("CANDIDATE")
 
-                        // Apenas candidatos podem alterar seus dados.
+                        // Apenas candidatos podem atualizar seus dados.
                         .requestMatchers(
                                 HttpMethod.PUT,
                                 "/candidato/atualizar/**"
                         ).hasRole("CANDIDATE")
 
-                        // Apenas candidatos podem deletar seu cadastro.
+                        // Apenas candidatos podem excluir seus cadastros.
                         .requestMatchers(
                                 HttpMethod.DELETE,
                                 "/candidato/deletar/**"
@@ -76,7 +81,7 @@ public class SecurityConfig {
                                 "/vagas/atualizar/**"
                         ).hasRole("COMPANY")
 
-                        // Apenas empresas podem deletar vagas.
+                        // Apenas empresas podem excluir vagas.
                         .requestMatchers(
                                 HttpMethod.DELETE,
                                 "/vagas/deletar/**"
@@ -88,16 +93,17 @@ public class SecurityConfig {
                                 "/vagas/buscar"
                         ).hasAnyRole("CANDIDATE", "COMPANY")
 
+                        // Apenas empresas podem pesquisar candidatos.
                         .requestMatchers(
                                 HttpMethod.GET,
                                 "/candidato/buscar"
                         ).hasRole("COMPANY")
 
-                        // Qualquer outra rota exige autenticação.
+                        // As demais requisições exigem autenticação.
                         .anyRequest().authenticated()
                 )
 
-                // Coloca o SecurityFilter antes do filtro padrão do Spring.
+                // Executa o filtro JWT antes do filtro padrão.
                 .addFilterBefore(
                         securityFilter,
                         UsernamePasswordAuthenticationFilter.class
@@ -105,4 +111,4 @@ public class SecurityConfig {
 
         return http.build();
     }
-}
+    }

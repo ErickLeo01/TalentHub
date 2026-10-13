@@ -1,1 +1,27 @@
-<p>candidate-list works!</p>
+<h1>Lista de candidatos</h1>
+
+<p *ngIf="loading">Carregando candidatos...</p>
+
+<p *ngIf="errorMessage">{{ errorMessage }}</p>
+
+<p *ngIf="!loading && !errorMessage && candidates.length === 0">
+  Nenhum candidato encontrado.
+</p>
+
+<div class="candidate-list" *ngIf="!loading && candidates.length > 0">
+
+  <div class="candidate-card" *ngFor="let candidate of candidates">
+
+    <h2>{{ candidate.name }}</h2>
+
+    <p class="candidate-email">{{ candidate.email }}</p>
+
+    <p class="candidate-description">
+      {{ candidate.description || 'Nenhuma descrição informada.' }}
+    </p>
+
+    <button type="button" (click)="updateCandidate(candidate)">Atualizar cadastro</button>
+
+  </div>
+
+</div>
