@@ -1,1 +1,89 @@
-<p>job-update works!</p>
+
+<div class="page-container">
+  <section class="form-card">
+    <header class="page-header">
+      <span class="eyebrow">TALENTHUB</span>
+      <h1>Atualizar vaga</h1>
+      <p>Altere somente as informações que deseja atualizar.</p>
+    </header>
+
+    <div *ngIf="loading" class="status-message">
+      Carregando dados da vaga...
+    </div>
+
+    <div *ngIf="errorMessage" class="alert alert-error" role="alert">
+      {{ errorMessage }}
+    </div>
+
+    <div *ngIf="message" class="alert alert-success" role="status">
+      {{ message }}
+    </div>
+
+    <form
+      *ngIf="!loading && jobId"
+      #jobForm="ngForm"
+      (ngSubmit)="updateJob()"
+    >
+      <div class="form-group">
+        <label for="name">Nome da vaga</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          [(ngModel)]="job.name"
+          placeholder="Nome da vaga"
+          maxlength="150"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="description">Descrição</label>
+        <textarea
+          id="description"
+          name="description"
+          [(ngModel)]="job.description"
+          placeholder="Descrição da vaga"
+          rows="5"
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="salary">Salário (R$)</label>
+        <input
+          type="number"
+          id="salary"
+          name="salary"
+          [(ngModel)]="job.salary"
+          placeholder="Salário"
+          min="0.01"
+          step="0.01"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="benefits">Benefícios</label>
+        <textarea
+          id="benefits"
+          name="benefits"
+          [(ngModel)]="job.benefits"
+          placeholder="Benefícios da vaga"
+          rows="3"
+        ></textarea>
+      </div>
+
+      <div class="button-group">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="saving || loading"
+        >
+          {{ saving ? 'Salvando...' : 'Salvar alterações' }}
+        </button>
+
+        <a routerLink="/vagas" class="btn btn-secondary">
+          Cancelar
+        </a>
+      </div>
+    </form>
+  </section>
+</div>

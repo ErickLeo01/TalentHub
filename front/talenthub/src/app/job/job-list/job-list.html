@@ -1,1 +1,100 @@
-<p>job-list works!</p>
+
+<div class="page-container">
+  <header class="list-header">
+    <div>
+      <span class="eyebrow">TALENTHUB</span>
+      <h1>Vagas disponíveis</h1>
+      <p>Confira as oportunidades cadastradas na plataforma.</p>
+    </div>
+
+    <a routerLink="/vagas/criar" class="btn btn-primary">
+      + Cadastrar vaga
+    </a>
+  </header>
+
+  <div *ngIf="loading" class="status-card" role="status">
+    Carregando vagas...
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-error" role="alert">
+    {{ errorMessage }}
+
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="findJobs()"
+    >
+      Tentar novamente
+    </button>
+  </div>
+
+  <div
+    *ngIf="!loading && !errorMessage && jobs.length === 0"
+    class="empty-state"
+  >
+    <div class="empty-icon" aria-hidden="true">⌕</div>
+    <h2>Nenhuma vaga encontrada</h2>
+    <p>Quando houver vagas cadastradas, elas aparecerão aqui.</p>
+
+    <a routerLink="/vagas/criar" class="btn btn-primary">
+      Cadastrar primeira vaga
+    </a>
+  </div>
+
+  <section
+    *ngIf="!loading && jobs.length > 0"
+    class="job-grid"
+    aria-label="Lista de vagas"
+  >
+    <article class="job-card" *ngFor="let job of jobs">
+      <div class="job-card-header">
+        <span class="job-label">Oportunidade</span>
+
+        <span class="job-id">
+          {{ job.id }}
+        </span>
+      </div>
+
+      <h2>{{ job.name }}</h2>
+
+      <p class="job-description">
+        {{ job.description }}
+      </p>
+
+      <div class="job-salary">
+        <span>Salário</span>
+        <strong>
+          {{ job.salary | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+        </strong>
+      </div>
+
+      <div class="job-benefits">
+        <span>Benefícios</span>
+        <p>{{ job.benefits }}</p>
+      </div>
+
+      <div class="card-actions">
+        <a
+          [routerLink]="['/vagas/detalhes', job.id]"
+          class="btn btn-secondary"
+        >
+          Detalhes
+        </a>
+
+        <a
+          [routerLink]="['/vagas/update', job.id]"
+          class="btn btn-edit"
+        >
+          Editar
+        </a>
+
+        <a
+          [routerLink]="['/vagas/delete', job.id]"
+          class="btn btn-delete"
+        >
+          Excluir
+        </a>
+      </div>
+    </article>
+  </section>
+</div>

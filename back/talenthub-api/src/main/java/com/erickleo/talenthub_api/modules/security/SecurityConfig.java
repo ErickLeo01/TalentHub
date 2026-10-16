@@ -99,6 +99,11 @@ public class SecurityConfig {
                                 "/candidato/buscar"
                         ).hasRole("COMPANY")
 
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/empresa/me"
+                        ).hasRole("COMPANY")
+
                         // As demais requisições exigem autenticação.
                         .anyRequest().authenticated()
                 )

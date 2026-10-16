@@ -1,0 +1,263 @@
+
+:host {
+  display: block;
+  min-height: 100%;
+  background: #f4f6fb;
+  color: #172033;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.eyebrow {
+  color: #5146e5;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+h1 {
+  margin: 10px 0;
+  font-size: 32px;
+}
+
+.list-header p {
+  margin: 0;
+  color: #697386;
+  line-height: 1.6;
+}
+
+.btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 11px 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-primary {
+  flex-shrink: 0;
+  background: #5146e5;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background: #4035c7;
+}
+
+.btn-secondary {
+  background: #eef0f6;
+  color: #344054;
+}
+
+.btn-secondary:hover {
+  background: #e0e4ed;
+}
+
+.btn-edit {
+  background: #e9edff;
+  color: #3930a8;
+}
+
+.btn-edit:hover {
+  background: #dbe2ff;
+}
+
+.btn-delete {
+  background: #fff0f0;
+  color: #b42323;
+}
+
+.btn-delete:hover {
+  background: #ffe0e0;
+}
+
+.job-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.job-card {
+  min-width: 0;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #e4e8f0;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(22, 34, 55, 0.04);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.job-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(22, 34, 55, 0.08);
+}
+
+.job-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.job-label {
+  padding: 6px 10px;
+  border-radius: 20px;
+  background: #eeedff;
+  color: #5146e5;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.job-id {
+  max-width: 55%;
+  overflow: hidden;
+  color: #8992a3;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.job-card h2 {
+  margin: 0 0 12px;
+  font-size: 20px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.job-description {
+  display: -webkit-box;
+  min-height: 60px;
+  overflow: hidden;
+  color: #697386;
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.job-salary {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 20px 0;
+  padding: 14px;
+  border-radius: 8px;
+  background: #f7f8fc;
+}
+
+.job-salary span,
+.job-benefits > span {
+  color: #697386;
+  font-size: 12px;
+}
+
+.job-salary strong {
+  color: #16804a;
+  font-size: 20px;
+}
+
+.job-benefits p {
+  margin: 8px 0 0;
+  color: #344054;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid #edf0f5;
+}
+
+.status-card,
+.empty-state {
+  padding: 40px 24px;
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid #e4e8f0;
+  border-radius: 14px;
+}
+
+.status-card {
+  color: #697386;
+}
+
+.empty-icon {
+  margin-bottom: 12px;
+  color: #5146e5;
+  font-size: 42px;
+}
+
+.empty-state h2 {
+  margin: 0 0 10px;
+  font-size: 22px;
+}
+
+.empty-state p {
+  margin-bottom: 24px;
+  color: #697386;
+  line-height: 1.6;
+}
+
+.alert {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border-radius: 8px;
+  line-height: 1.5;
+}
+
+.alert-error {
+  color: #a61b1b;
+  background: #fff0f0;
+  border: 1px solid #fecaca;
+}
+
+@media (max-width: 760px) {
+  .page-container {
+    padding: 24px 14px;
+  }
+
+  .list-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  h1 {
+    font-size: 26px;
+  }
+
+  .job-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .job-card {
+    padding: 20px;
+  }
+}

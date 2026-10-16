@@ -61,6 +61,7 @@ public class JobUpdateUseCase {
         JobEntity updatedJob = jobRepository.save(jobEntity);
 
         return new JobResponseDTO(
+                updatedJob.getId(),
                 updatedJob.getName(),
                 updatedJob.getDescription(),
                 updatedJob.getSalary(),

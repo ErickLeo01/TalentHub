@@ -1,1 +1,24 @@
-<p>job-details works!</p>
+<h1>Detalhes da vaga</h1>
+
+<!-- Mostra uma mensagem enquanto os dados são carregados. -->
+<div *ngIf="loading">
+  Carregando detalhes da vaga...
+</div>
+
+<!-- Mostra uma mensagem se ocorrer um erro. -->
+<div *ngIf="errorMessage">
+  {{ errorMessage }}
+</div>
+
+<!-- Exibe os dados quando a vaga for encontrada. -->
+<div *ngIf="!loading && !errorMessage && job">
+  <h2>{{ job.name }}</h2>
+
+  <p>Descrição: {{ job.description }}</p>
+
+  <p>Salário: {{ job.salary | currency:'BRL' }}</p>
+
+  <p>Benefícios: {{ job.benefits }}</p>
+</div>
+
+<a routerLink="/vagas">Voltar para vagas</a>

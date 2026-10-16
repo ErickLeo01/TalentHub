@@ -1,17 +1,17 @@
 package com.erickleo.talenthub_api.modules.company.service;
 
-import com.erickleo.talenthub_api.modules.company.dto.CompanyResponseDTO;
 import com.erickleo.talenthub_api.modules.company.dto.CompanyUpdateDTO;
+import com.erickleo.talenthub_api.modules.company.dto.CompanyResponseDTO;
 import com.erickleo.talenthub_api.modules.company.entity.CompanyEntity;
 import com.erickleo.talenthub_api.modules.company.exception.CompanyExistingEmailORCNPJException;
 import com.erickleo.talenthub_api.modules.company.exception.CompanyNotUpdateException;
 import com.erickleo.talenthub_api.modules.company.repository.CompanyRepository;
+import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.UUID;
 
 @Service
@@ -31,12 +31,13 @@ public class CompanyUpdateUseCase {
     @Transactional
     public CompanyResponseDTO updateCompany(
             UUID id,
-            CompanyUpdateDTO companyDTO
+            @Valid CompanyUpdateDTO companyDTO
     ) {
         if (id == null || companyDTO == null) {
             throw new CompanyNotUpdateException();
         }
 
+        // Obtém os dados da empresa autenticada.
         Authentication authentication =
                 SecurityContextHolder.getContext().getAuthentication();
 
@@ -49,6 +50,7 @@ public class CompanyUpdateUseCase {
             throw new CompanyNotUpdateException();
         }
 
+        // Converte o ID autenticado para UUID.
         final UUID authenticatedCompanyId;
 
         try {
@@ -58,28 +60,30 @@ public class CompanyUpdateUseCase {
             throw new CompanyNotUpdateException();
         }
 
+        // Impede que uma empresa atualize o cadastro de outra.
         if (!authenticatedCompanyId.equals(id)) {
             throw new CompanyNotUpdateException();
         }
 
+        // Busca a empresa que será atualizada.
         CompanyEntity companyEntity = companyRepository.findById(id)
                 .orElseThrow(CompanyNotUpdateException::new);
 
-        // Verifica se o e-mail informado já pertence a outra empresa.
+        // Verifica se o e-mail pertence a outra empresa.
         if (companyDTO.email() != null
                 && companyRepository.existsByEmailAndIdNot(
                 companyDTO.email(), id)) {
             throw new CompanyExistingEmailORCNPJException();
         }
 
-        // Verifica se o CNPJ informado já pertence a outra empresa.
+        // Verifica se o CNPJ pertence a outra empresa.
         if (companyDTO.cnpj() != null
                 && companyRepository.existsByCnpjAndIdNot(
                 companyDTO.cnpj(), id)) {
             throw new CompanyExistingEmailORCNPJException();
         }
 
-        // Atualiza somente os campos enviados.
+        // Atualiza somente os campos informados.
         if (companyDTO.name() != null) {
             companyEntity.setName(companyDTO.name());
         }
@@ -88,7 +92,7 @@ public class CompanyUpdateUseCase {
             companyEntity.setEmail(companyDTO.email());
         }
 
-        // Codifica a senha somente quando uma nova senha é informada.
+        // Altera a senha somente quando uma nova senha é informada.
         if (companyDTO.password() != null
                 && !companyDTO.password().isBlank()) {
             companyEntity.setPassword(
@@ -108,14 +112,18 @@ public class CompanyUpdateUseCase {
             companyEntity.setAddress(companyDTO.address());
         }
 
+        // Salva as alterações.
         CompanyEntity updatedCompany =
                 companyRepository.save(companyEntity);
 
+        // Retorna os dados atualizados sem expor a senha.
         return new CompanyResponseDTO(
+                updatedCompany.getId(),
                 updatedCompany.getName(),
                 updatedCompany.getEmail(),
                 updatedCompany.getDescription(),
-                updatedCompany.getAddress()
+                updatedCompany.getAddress(),
+                updatedCompany.getCnpj()
         );
     }
 }

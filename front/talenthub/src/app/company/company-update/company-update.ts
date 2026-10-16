@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
 import { CompanyUpdateDTO } from '../interface/company-update-dto.interface';
 import { CompanyService } from '../service/CompanyService';
 import { CompanyResponseDTO } from '../interface/company-response-interface';
@@ -117,7 +116,7 @@ export class CompanyUpdate implements OnInit {
         this.message = 'Cadastro atualizado com sucesso!';
 
         console.log('Empresa atualizada:', response);
-        this.router.navigate(['/empresas']);
+        this.router.navigate(['/empresa/perfil']);
       },
       error: (error) => {
         this.saving = false;

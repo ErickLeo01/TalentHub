@@ -1,0 +1,94 @@
+/* Área principal da página */
+:host {
+  display: block;
+  min-height: 100vh;
+  padding: 32px 20px;
+  background-color: #f4f7fb;
+  color: #1f2937;
+  font-family: Arial, sans-serif;
+}
+
+/* Título da página */
+h1 {
+  max-width: 850px;
+  margin: 0 auto 24px;
+  font-size: 28px;
+  color: #1e3a8a;
+}
+
+/* Cartão com os detalhes da vaga */
+h1 + div + div + div {
+  box-sizing: border-box;
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+/* Mensagem de carregamento */
+div[ng-reflect-ng-if] {
+  line-height: 1.6;
+}
+
+/* Nome da vaga */
+h2 {
+  margin: 0 0 24px;
+  color: #1e3a8a;
+  font-size: 26px;
+}
+
+/* Descrição, salário e benefícios */
+p {
+  margin: 0 0 18px;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+/* Link para voltar à listagem */
+a[routerLink] {
+  display: inline-block;
+  max-width: 850px;
+  margin: 24px auto 0;
+  padding: 12px 20px;
+  border-radius: 8px;
+  background-color: #2563eb;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+/* Efeito ao passar o mouse */
+a[routerLink]:hover {
+  background-color: #1d4ed8;
+}
+
+/* Destaque ao navegar pelo teclado */
+a[routerLink]:focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: 3px;
+}
+
+/* Ajustes para telas pequenas */
+@media (max-width: 600px) {
+  :host {
+    padding: 24px 14px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  p {
+    padding: 13px;
+    font-size: 15px;
+  }
+}

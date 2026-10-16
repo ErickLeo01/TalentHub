@@ -1,4 +1,3 @@
-
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -11,6 +10,7 @@ import { CompanyResponseDTO } from '../interface/company-response-interface';
   templateUrl: './company-list.html',
   styleUrl: './company-list.css',
 })
+
 export class CompanyList implements OnInit {
 
   companies: CompanyResponseDTO[] = [];

@@ -1,0 +1,126 @@
+
+/* Área principal */
+:host {
+  display: block;
+  min-height: 100vh;
+  padding: 40px 20px;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #eef4ff, #f8faff);
+  color: #1e293b;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Título */
+h1 {
+  margin: 0 auto 30px;
+  color: #1d4ed8;
+  font-size: 28px;
+  text-align: center;
+}
+
+/* Cartão do perfil */
+.profile-card {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 32px;
+  box-sizing: border-box;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  background-color: #ffffff;
+  box-shadow: 0 8px 24px rgba(30, 64, 175, 0.08);
+}
+
+/* Nome da empresa */
+h2 {
+  margin: 0 0 20px;
+  color: #1d4ed8;
+  font-size: 24px;
+  overflow-wrap: anywhere;
+}
+
+/* Informações da empresa */
+.company-email,
+.company-cnpj,
+.company-address,
+.company-description {
+  margin-bottom: 18px;
+  color: #475569;
+  font-size: 15px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+/* Descrição preserva as quebras de linha */
+.company-description {
+  white-space: pre-line;
+}
+
+/* Botão de atualização */
+
+button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 14px 18px;
+  border: none;
+  border-radius: 8px;
+  background-color: #2563eb;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+button:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+button:focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: 3px;
+}
+
+
+/* Mensagens */
+.error-message,
+.loading-message {
+  max-width: 600px;
+  margin: 0 auto 20px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.error-message {
+  padding: 14px;
+  box-sizing: border-box;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  background-color: #fef2f2;
+  color: #b91c1c;
+  overflow-wrap: anywhere;
+}
+
+/* Adaptação para celulares */
+@media (max-width: 600px) {
+  :host {
+    padding: 25px 14px;
+  }
+
+  h1 {
+    font-size: 23px;
+  }
+
+  h2 {
+    font-size: 21px;
+  }
+
+  .profile-card {
+    padding: 24px 20px;
+  }
+
+  button {
+    padding: 13px;
+  }
+}

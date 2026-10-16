@@ -3,13 +3,15 @@ package com.erickleo.talenthub_api.modules.job.service;
 import com.erickleo.talenthub_api.modules.company.entity.CompanyEntity;
 import com.erickleo.talenthub_api.modules.company.exception.CompanyNotFoundException;
 import com.erickleo.talenthub_api.modules.company.repository.CompanyRepository;
+import com.erickleo.talenthub_api.modules.job.dto.JobDTO;
 import com.erickleo.talenthub_api.modules.job.dto.JobResponseDTO;
 import com.erickleo.talenthub_api.modules.job.entity.JobEntity;
 import com.erickleo.talenthub_api.modules.job.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import com.erickleo.talenthub_api.modules.job.dto.JobDTO;
+
 import java.util.UUID;
 
 @Service
@@ -23,11 +25,28 @@ public class JobCreateUseCase {
 
     public JobResponseDTO createJob(JobDTO jobDTO) {
 
-        String userId = SecurityContextHolder.getContext()
-                .getAuthentication()
-                .getName();
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
 
-        UUID companyId = UUID.fromString(userId);
+        if (authentication == null
+                || !authentication.isAuthenticated()
+                || authentication.getAuthorities().stream()
+                .noneMatch(authority ->
+                        "ROLE_COMPANY".equals(authority.getAuthority()))) {
+            throw new IllegalStateException(
+                    "Apenas empresas autenticadas podem criar vagas."
+            );
+        }
+
+        UUID companyId;
+
+        try {
+            companyId = UUID.fromString(authentication.getName());
+        } catch (IllegalArgumentException exception) {
+            throw new IllegalStateException(
+                    "O usuário autenticado não possui um ID válido."
+            );
+        }
 
         CompanyEntity companyEntity = companyRepository.findById(companyId)
                 .orElseThrow(CompanyNotFoundException::new);
@@ -43,6 +62,7 @@ public class JobCreateUseCase {
         JobEntity savedJob = jobRepository.save(jobEntity);
 
         return new JobResponseDTO(
+                savedJob.getId(),
                 savedJob.getName(),
                 savedJob.getDescription(),
                 savedJob.getSalary(),

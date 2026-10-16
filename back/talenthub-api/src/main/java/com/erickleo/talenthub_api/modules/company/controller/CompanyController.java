@@ -8,7 +8,7 @@ import com.erickleo.talenthub_api.modules.company.service.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.security.core.Authentication;
 import java.util.List;
 import java.util.UUID;
 
@@ -62,4 +62,16 @@ public class CompanyController {
     public CompanyLoginResponseDTO login(@RequestBody CompanyLoginDTO companyLoginDTO) {
         return companyLoginUseCase.login(companyLoginDTO);
     }
+
+    @GetMapping("/me")
+    public CompanyResponseDTO findMyProfile(
+            Authentication authentication) {
+
+        // Pega o UUID da empresa autenticada pelo JWT.
+        UUID companyId = UUID.fromString(authentication.getName());
+
+        // Busca a empresa no banco e retorna os dados.
+        return companyFindByIdUseCase.findCompanyById(companyId);
+    }
+
 }

@@ -25,6 +25,7 @@ public class JobFindByNameUseCase {
 
         return jobs.stream()
                 .map(job -> new JobResponseDTO(
+                        job.getId(),
                         job.getName(),
                         job.getDescription(),
                         job.getSalary(),
