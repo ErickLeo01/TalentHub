@@ -41,21 +41,21 @@ O projeto está sendo desenvolvido com **Spring Boot no Back-end**, **Angular no
 - [x] Busca por nome
 - [x] Login
 - [x] Candidatura em vagas
-- [ ] Interface completa no Front-end
+- [x] Interface completa no Front-end
 
 ### 🏢 Empresa
 - [x] Cadastro
 - [x] Atualização
 - [x] Exclusão
 - [x] Busca
-- [ ] Interface completa no Front-end
+- [x] Interface completa no Front-end
 
 ### 💼 Vagas
 - [x] Cadastro de vagas
 - [x] Atualização de vagas
 - [x] Exclusão de vagas
 - [x] Busca de vagas
-- [ ] Interface completa no Front-end
+- [x] Interface completa no Front-end
 
 ## 🔐 Segurança
 
