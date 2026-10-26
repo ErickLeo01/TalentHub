@@ -8,17 +8,17 @@ import com.erickleo.talenthub_api.modules.candidate.dto.CandidateUpdateDTO;
 import com.erickleo.talenthub_api.modules.candidate.service.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import java.util.List;
-import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/candidato")
-@CrossOrigin(origins = "http://localhost:4200")
 public class CandidateController {
 
     @Autowired
@@ -61,7 +61,8 @@ public class CandidateController {
     }
 
     @GetMapping("/buscar")
-    public List<CandidateResponseDTO> searchName(@RequestParam String name) {
+    public List<CandidateResponseDTO> searchName(
+            @RequestParam(required = false, defaultValue = "") String name) {
         return candidateFindByNameUseCase.showCandidate(name);
     }
 
@@ -76,8 +77,13 @@ public class CandidateController {
         return candidateApplyJobUseCase.applyJob(jobId);
     }
 
+    @GetMapping("/buscarporid")
+    public CandidateResponseDTO searchId(@RequestParam UUID id) {
+        return candidateFindByIdUseCase.findCandidateById(id);
+    }
+
     @GetMapping("/{id}")
-    public CandidateResponseDTO searchId(@PathVariable UUID id) {
+    public CandidateResponseDTO findById(@PathVariable UUID id) {
         return candidateFindByIdUseCase.findCandidateById(id);
     }
 
@@ -88,13 +94,13 @@ public class CandidateController {
         Authentication authentication =
                 SecurityContextHolder.getContext().getAuthentication();
 
-        // Verifica se existe um usuário autenticado.
         if (authentication == null
                 || !authentication.isAuthenticated()
                 || authentication.getName() == null
                 || authentication.getAuthorities().stream()
                 .noneMatch(authority ->
-                        "ROLE_CANDIDATE".equals(authority.getAuthority()))) {
+                        "ROLE_CANDIDATE".equals(authority.getAuthority()) ||
+                                "CANDIDATE".equals(authority.getAuthority()))) {
 
             throw new ResponseStatusException(
                     HttpStatus.FORBIDDEN,
@@ -102,7 +108,6 @@ public class CandidateController {
             );
         }
 
-        // Obtém o ID do candidato a partir da autenticação.
         UUID candidateId;
 
         try {
@@ -114,8 +119,6 @@ public class CandidateController {
             );
         }
 
-        // Busca os dados do candidato no banco.
         return candidateFindByIdUseCase.findCandidateById(candidateId);
     }
-
 }

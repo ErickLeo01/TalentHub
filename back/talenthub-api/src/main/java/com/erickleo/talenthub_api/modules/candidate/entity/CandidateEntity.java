@@ -36,7 +36,7 @@ public class CandidateEntity {
     private String cpf;
 
     @NotBlank(message = "A descrição não pode ser nula.")
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @ManyToMany
@@ -45,6 +45,6 @@ public class CandidateEntity {
             joinColumns = @JoinColumn(name = "candidates_id"),
             inverseJoinColumns = @JoinColumn(name = "job_id")
     )
-
     private List<JobEntity> jobs;
+
 }

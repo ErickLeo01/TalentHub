@@ -6,11 +6,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
 import java.io.IOException;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
@@ -22,45 +25,57 @@ public class SecurityFilter extends OncePerRequestFilter {
     protected void doFilterInternal(
             HttpServletRequest request,
             HttpServletResponse response,
-            FilterChain filterChain) throws ServletException, IOException {
+            FilterChain filterChain
+    ) throws ServletException, IOException {
 
-        // Pega o valor que veio no cabeçalho Authorization.
         String authHeader = request.getHeader("Authorization");
 
-        // Verifica se existe um token Bearer.
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            String token = authHeader.substring(7).trim();
 
-            // Remove "Bearer " e pega somente o token.
-            String token = authHeader.substring(7);
+            if (!token.isEmpty() && !token.equalsIgnoreCase("null") && !token.equalsIgnoreCase("undefined")) {
+                try {
+                    String userId = jwtProvider.getSubject(token);
 
-            // Verifica se o token é válido.
-            boolean tokenValido = jwtProvider.validateToken(token);
+                    if (userId != null && !userId.isBlank()) {
+                        String role = null;
 
-            // Se o token for inválido, bloqueia a requisição.
-            if (!tokenValido) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                return;
+                        try {
+                            role = jwtProvider.getRole(token);
+                        } catch (Exception e) {
+                            System.out.println("[SecurityFilter] Não foi possível ler a claim 'role': " + e.getMessage());
+                        }
+
+                        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
+                        if (role != null && !role.isBlank()) {
+                            String cleanRole = role.replace("ROLE_", "").trim().toUpperCase();
+                            authorities.add(new SimpleGrantedAuthority("ROLE_" + cleanRole));
+                            authorities.add(new SimpleGrantedAuthority(cleanRole));
+                        } else {
+                            authorities.add(new SimpleGrantedAuthority("ROLE_CANDIDATE"));
+                            authorities.add(new SimpleGrantedAuthority("CANDIDATE"));
+                        }
+
+                        UsernamePasswordAuthenticationToken authentication =
+                                new UsernamePasswordAuthenticationToken(
+                                        userId,
+                                        null,
+                                        authorities
+                                );
+
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
+                    } else {
+                        SecurityContextHolder.clearContext();
+                    }
+
+                } catch (Exception exception) {
+                    System.err.println("[SecurityFilter] Falha ao decodificar token: " + exception.getMessage());
+                    SecurityContextHolder.clearContext();
+                }
             }
-
-            // Pega o UUID que está dentro do token.
-            String userId = jwtProvider.getSubject(token);
-            String role = jwtProvider.getRole(token);
-
-            // Cria a autenticação do usuário.
-            UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(
-                            userId,
-                            null,
-                            java.util.List.of(
-                                    new SimpleGrantedAuthority("ROLE_" + role)
-                            )
-                    );
-
-            // Informa ao Spring Security quem está autenticado.
-            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
-        // Continua a requisição.
         filterChain.doFilter(request, response);
     }
 }

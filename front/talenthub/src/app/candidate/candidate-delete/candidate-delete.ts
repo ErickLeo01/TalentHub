@@ -22,7 +22,6 @@ export class CandidateDelete implements OnInit {
     private router: Router
   ) {}
 
-  // Obtém o ID do candidato informado na rota.
   ngOnInit(): void {
     this.candidateId = this.route.snapshot.paramMap.get('id') ?? '';
 
@@ -31,7 +30,6 @@ export class CandidateDelete implements OnInit {
     }
   }
 
-  // Solicita a exclusão do candidato.
   public deleteCandidate(): void {
     if (!this.candidateId || this.loading) {
       return;
@@ -42,27 +40,31 @@ export class CandidateDelete implements OnInit {
     this.successMessage = '';
 
     this.candidateService.deleteCandidate(this.candidateId).subscribe({
-      next: () => {
+      next: (responseMessage) => {
         this.loading = false;
-        this.successMessage = 'Candidato excluído com sucesso!';
+        this.successMessage = responseMessage || 'Candidato excluído com sucesso!';
 
-        // Retorna para a lista após a exclusão.
-        this.router.navigate(['/candidatos']);
+        // Aguarda 1.5s antes de redirecionar para a lista atualizar
+        setTimeout(() => {
+          this.router.navigate(['/candidatos']);
+        }, 1500);
       },
 
       error: (error) => {
         this.loading = false;
-
         console.error('Erro ao excluir candidato:', error);
 
-        this.errorMessage =
-          error.error?.message ??
-          'Não foi possível excluir o candidato. Tente novamente.';
+        if (error.status === 404) {
+          this.errorMessage = 'Candidato não encontrado no banco de dados. Ele pode ter sido excluído anteriormente.';
+        } else if (error.status === 403) {
+          this.errorMessage = 'Acesso negado: Você só possui permissão para excluir a sua própria conta.';
+        } else {
+          this.errorMessage = error.error?.message ?? 'Não foi possível excluir o candidato. Tente novamente.';
+        }
       }
     });
   }
 
-  // Solicita confirmação antes de excluir.
   public confirmDelete(): void {
     if (!this.candidateId || this.loading) {
       return;

@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CandidateUpdateDTO } from '../interface/candidate-update-dto.interface';
 import { CandidateService } from '../service/CandidateService';
 import { CandidateResponseDTO } from '../interface/candidate-response.interface';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 @Component({
   imports: [FormsModule, CommonModule],
@@ -14,8 +14,9 @@ import { CommonModule } from '@angular/common';
 })
 export class CandidateUpdate implements OnInit {
 
-  candidateId: string = '';
+  private platformId = inject(PLATFORM_ID);
 
+  candidateId: string = '';
   loading: boolean = true;
   saving: boolean = false;
   message: string = '';
@@ -32,22 +33,31 @@ export class CandidateUpdate implements OnInit {
   constructor(
     private candidateService: CandidateService,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {}
 
   ngOnInit(): void {
-    this.candidateId = this.route.snapshot.paramMap.get('id') ?? '';
+    // Escuta as alterações na rota para capturar o parâmetro 'id'
+    this.route.paramMap.subscribe(params => {
+      this.candidateId = params.get('id') ?? '';
 
-    if (!this.candidateId) {
-      this.errorMessage = 'ID do candidato não informado.';
-      this.loading = false;
-      return;
-    }
+      if (!this.candidateId) {
+        this.errorMessage = 'ID do candidato não informado na URL.';
+        this.loading = false;
+        return;
+      }
 
-    this.findCandidateById();
+      this.findCandidateById();
+    });
+  }
+
+  public goBack(): void {
+    this.router.navigate(['/candidatos']);
   }
 
   public findCandidateById(): void {
+    if (!this.candidateId) return;
+
     this.loading = true;
     this.errorMessage = '';
 
@@ -57,12 +67,12 @@ export class CandidateUpdate implements OnInit {
         this.candidate.email = response.email;
         this.candidate.description = response.description;
 
-        this.loading = false;
+        this.loading = false; // Oculta a mensagem de carregamento
       },
       error: (error) => {
-        console.error('Erro ao buscar candidato.', error);
+        console.error('Erro ao buscar dados do candidato:', error);
         this.errorMessage = 'Não foi possível carregar os dados do candidato.';
-        this.loading = false;
+        this.loading = false; // Desativa o carregamento mesmo em caso de erro
       }
     });
   }
@@ -80,21 +90,16 @@ export class CandidateUpdate implements OnInit {
     if (this.candidate.name?.trim()) {
       candidateUpdate.name = this.candidate.name.trim();
     }
-
     if (this.candidate.email?.trim()) {
       candidateUpdate.email = this.candidate.email.trim();
     }
-
     if (this.candidate.password?.trim()) {
       candidateUpdate.password = this.candidate.password;
     }
-
     if (this.candidate.cpf?.trim()) {
       candidateUpdate.cpf = this.candidate.cpf.trim();
     }
-
-    if (this.candidate.description !== undefined &&
-        this.candidate.description !== null) {
+    if (this.candidate.description !== undefined && this.candidate.description !== null) {
       candidateUpdate.description = this.candidate.description;
     }
 
@@ -104,17 +109,14 @@ export class CandidateUpdate implements OnInit {
       this.candidateId,
       candidateUpdate
     ).subscribe({
-      next: (response: CandidateResponseDTO) => {
+      next: () => {
         this.saving = false;
         this.message = 'Cadastro atualizado com sucesso!';
-
-        console.log('Candidato atualizado:', response);
         this.router.navigate(['/candidatos']);
       },
       error: (error) => {
         this.saving = false;
-        console.error('Erro ao atualizar candidato.', error);
-
+        console.error('Erro ao atualizar candidato:', error);
         this.errorMessage =
           error.error?.message ??
           'Não foi possível atualizar o cadastro. Verifique os dados e tente novamente.';

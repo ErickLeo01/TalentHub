@@ -4,21 +4,20 @@ import com.erickleo.talenthub_api.modules.candidate.entity.CandidateEntity;
 import com.erickleo.talenthub_api.modules.candidate.exception.CandidateNotFoundException;
 import com.erickleo.talenthub_api.modules.candidate.exception.CandidateNotUpdateException;
 import com.erickleo.talenthub_api.modules.candidate.repository.CandidateRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import java.util.UUID;
 
 @Service
 public class CandidateDeleteUseCase {
 
-    private final CandidateRepository candidateRepository;
-
-    public CandidateDeleteUseCase(CandidateRepository candidateRepository) {
-        this.candidateRepository = candidateRepository;
-    }
+    @Autowired
+    private  CandidateRepository candidateRepository;
 
     @Transactional
     public String deleteCandidate(UUID idCandidate) {
@@ -45,7 +44,10 @@ public class CandidateDeleteUseCase {
         }
 
         if (!authenticatedCandidateId.equals(idCandidate)) {
-            throw new CandidateNotUpdateException();
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN,
+                    "Você não pode excluir o cadastro de outro candidato."
+            );
         }
 
         CandidateEntity candidateEntity = candidateRepository.findById(idCandidate)

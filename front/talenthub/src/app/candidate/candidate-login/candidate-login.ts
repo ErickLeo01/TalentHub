@@ -22,15 +22,24 @@ export class CandidateLogin {
   constructor(private candidateService: CandidateService, private router: Router) {}
 
   public loginCandidate(): void {
-    this.candidateService.loginCandidate(this.candidateLogin).subscribe({
-      next: (response: CandidateLoginResponseDTO) => {
-        localStorage.setItem('token', response.token);
-        console.log('Login feito com sucesso!');
-        this.router.navigate(['/candidatos']);
-      },
-      error: (error) => {
-        console.error('Erro ao tentar fazer login. Tente novamente.', error);
-      }
-    })
-  }
+  this.candidateService.loginCandidate(this.candidateLogin).subscribe({
+    next: (response: CandidateLoginResponseDTO) => {
+      localStorage.setItem('token', response.token);
+      console.log('Login feito com sucesso!');
+
+      // Descodifica a payload do token JWT (parte do meio)
+      const payloadBase64 = response.token.split('.')[1];
+      const decodedPayload = JSON.parse(atob(payloadBase64));
+
+      // Extrai o ID (no Spring Security costuma vir no campo 'sub' ou 'id')
+      const candidateId = decodedPayload.sub || decodedPayload.id;
+
+      // Redireciona com o ID extraído do token
+      this.router.navigate(['/candidato/atualizar', candidateId]);
+    },
+    error: (error) => {
+      console.error('Erro ao tentar fazer login. Tente novamente.', error);
+    }
+  });
+}
 }

@@ -6,10 +6,10 @@ import com.erickleo.talenthub_api.modules.job.service.JobCreateUseCase;
 import com.erickleo.talenthub_api.modules.job.service.JobDeleteUseCase;
 import com.erickleo.talenthub_api.modules.job.service.JobFindByNameUseCase;
 import com.erickleo.talenthub_api.modules.job.service.JobUpdateUseCase;
+import com.erickleo.talenthub_api.modules.job.service.JobFindByIdUseCase;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -29,6 +29,9 @@ public class JobController {
 
     @Autowired
     private JobFindByNameUseCase jobFindByNameUseCase;
+
+    @Autowired
+    private JobFindByIdUseCase jobFindByIdUseCase;
 
     @PostMapping("/criar")
     public JobResponseDTO createJob(@Valid @RequestBody JobDTO jobDTO) {
@@ -51,5 +54,10 @@ public class JobController {
     @GetMapping("/buscar")
     public List<JobResponseDTO> searchJobs(@RequestParam String name) {
         return jobFindByNameUseCase.showJob(name);
+    }
+
+    @GetMapping("/{id}")
+    public JobResponseDTO findJobById(@PathVariable UUID id) {
+        return jobFindByIdUseCase.findJobById(id);
     }
 }

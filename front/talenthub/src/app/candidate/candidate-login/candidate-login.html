@@ -1,0 +1,50 @@
+<div class="login-container">
+  <div class="login-card">
+
+    <div class="logo">
+      <h1>Talent<span>Hub</span></h1>
+      <p>Seu próximo passo profissional começa aqui.</p>
+    </div>
+
+    <div class="login-header">
+      <h2>Login do candidato</h2>
+      <p>Entre na sua conta para encontrar oportunidades.</p>
+    </div>
+
+    <form (ngSubmit)="loginCandidate()">
+
+      <div class="form-group">
+        <label for="username">E-mail</label>
+        <input
+          type="email"
+          id="username"
+          name="username"
+          [(ngModel)]="candidateLogin.username"
+          placeholder="seuemail@exemplo.com"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Senha</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="candidateLogin.password"
+          placeholder="Digite sua senha"
+          required
+        />
+      </div>
+
+      <button type="submit">Entrar na plataforma</button>
+
+    </form>
+
+    <div class="login-footer">
+      <p>Ainda não possui uma conta?</p>
+      <a routerLink="/candidatos/criar">Cadastre-se</a>
+    </div>
+
+  </div>
+</div>

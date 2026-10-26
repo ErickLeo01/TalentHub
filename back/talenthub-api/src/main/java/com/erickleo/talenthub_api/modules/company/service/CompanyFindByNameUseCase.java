@@ -26,10 +26,12 @@ public class CompanyFindByNameUseCase {
 
         return companies.stream()
                 .map(company -> new CompanyResponseDTO(
+                        company.getId(),
                         company.getName(),
                         company.getEmail(),
                         company.getDescription(),
-                        company.getAddress()
+                        company.getAddress(),
+                        company.getCnpj()
                 ))
                 .toList();
     }

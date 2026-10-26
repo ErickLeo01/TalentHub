@@ -12,7 +12,7 @@ import { CompanyLoginResponseDTO } from '../interface/company-login-interface-re
 })
 export class CompanyService {
 
-  private apiUrl = 'http://localhost:8080/empresa';
+  private apiUrl = 'http://localhost:8081/empresa';
 
   constructor(private http: HttpClient) {}
 

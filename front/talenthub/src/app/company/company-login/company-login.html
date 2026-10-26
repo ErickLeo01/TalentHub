@@ -1,0 +1,46 @@
+<div class="login-container">
+  <div class="login-card">
+
+    <div class="logo">
+      <h1>Talent<span>Hub</span></h1>
+      <p>Conectando empresas aos melhores talentos.</p>
+    </div>
+
+    <div class="login-header">
+      <h2>Login da empresa</h2>
+      <p>Entre com seus dados para continuar.</p>
+    </div>
+
+    <form (ngSubmit)="loginCompany()">
+
+      <div class="form-group">
+        <label for="username">E-mail corporativo</label>
+        <input
+          type="email"
+          id="username"
+          name="username"
+          [(ngModel)]="companyLogin.email"
+          placeholder="empresa@exemplo.com"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Senha</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="companyLogin.password"
+          placeholder="Digite sua senha"
+          required
+        />
+      </div>
+
+      <button type="submit">Entrar na plataforma</button>
+
+    </form>
+
+    <div class="login-footer">
+      <p>Não possui uma conta?</p>
+      <a routerLink="/empresas/criar">Cadastre

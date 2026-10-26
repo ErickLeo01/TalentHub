@@ -38,6 +38,7 @@ public class CandidateCreateUseCase {
         CandidateEntity savedCandidate = candidateRepository.save(candidateEntity);
 
         return new CandidateResponseDTO(
+                savedCandidate.getId(),
                 savedCandidate.getName(),
                 savedCandidate.getEmail(),
                 savedCandidate.getDescription()

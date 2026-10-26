@@ -1,16 +1,34 @@
 <h1>Lista de candidatos</h1>
 
+<div style="margin-bottom: 20px;">
+  <input
+    type="text"
+    [(ngModel)]="searchTerm"
+    (keyup.enter)="search()"
+    placeholder="Digite o nome para buscar..."
+    style="padding: 8px; width: 250px; margin-right: 10px;"
+  />
+  <button type="button" (click)="search()">
+    Buscar
+  </button>
+  <button type="button" (click)="clearSearch()" style="margin-left: 5px;">
+    Limpar
+  </button>
+</div>
+
 <p *ngIf="loading">Carregando candidatos...</p>
 
-<p *ngIf="errorMessage">{{ errorMessage }}</p>
+<p *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</p>
 
 <p *ngIf="!loading && !errorMessage && candidates.length === 0">
   Nenhum candidato encontrado.
 </p>
 
 <div class="candidate-list" *ngIf="!loading && candidates.length > 0">
-
   <div class="candidate-card" *ngFor="let candidate of candidates">
+    <span class="candidate-id" style="font-weight: bold; color: #555;">
+      ID: {{ candidate.id }}
+    </span>
 
     <h2>{{ candidate.name }}</h2>
 
@@ -20,8 +38,12 @@
       {{ candidate.description || 'Nenhuma descrição informada.' }}
     </p>
 
-    <button type="button" (click)="updateCandidate(candidate)">Atualizar cadastro</button>
+    <button type="button" (click)="updateCandidate(candidate)">
+      Atualizar cadastro
+    </button>
 
+    <button type="button" (click)="deleteCandidate(candidate.id)">
+      Deletar
+    </button>
   </div>
-
 </div>

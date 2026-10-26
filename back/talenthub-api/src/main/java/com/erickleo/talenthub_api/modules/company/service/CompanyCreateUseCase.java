@@ -21,28 +21,39 @@ public class CompanyCreateUseCase {
 
     public CompanyResponseDTO createCompany(@Valid CompanyDTO companyDTO) {
 
-        if (companyRepository.existsByEmail(companyDTO.email()) ||
-                companyRepository.existsByCnpj(companyDTO.cnpj())) {
-
+        // Verifica se o e-mail ou CNPJ já estão cadastrados.
+        if (companyRepository.existsByEmail(companyDTO.email())
+                || companyRepository.existsByCnpj(companyDTO.cnpj())) {
             throw new CompanyExistingEmailORCNPJException();
         }
 
+        // Cria a entidade da empresa.
         CompanyEntity companyEntity = new CompanyEntity();
 
         companyEntity.setName(companyDTO.name());
         companyEntity.setEmail(companyDTO.email());
-        companyEntity.setPassword(passwordEncoder.encode(companyDTO.password()));
+
+        // Armazena a senha criptografada.
+        companyEntity.setPassword(
+                passwordEncoder.encode(companyDTO.password())
+        );
+
         companyEntity.setCnpj(companyDTO.cnpj());
         companyEntity.setDescription(companyDTO.description());
         companyEntity.setAddress(companyDTO.address());
 
-        CompanyEntity savedCompany = companyRepository.save(companyEntity);
+        // Salva a empresa no banco de dados.
+        CompanyEntity savedCompany =
+                companyRepository.save(companyEntity);
 
+        // Retorna os dados sem expor a senha.
         return new CompanyResponseDTO(
+                savedCompany.getId(),
                 savedCompany.getName(),
                 savedCompany.getEmail(),
                 savedCompany.getDescription(),
-                savedCompany.getAddress()
+                savedCompany.getAddress(),
+                savedCompany.getCnpj()
         );
     }
 }

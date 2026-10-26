@@ -22,12 +22,26 @@ public class CompanyLoginUseCase {
     @Autowired
     private JWTProvider jwtProvider;
 
-    public CompanyLoginResponseDTO login(CompanyLoginDTO companyLoginDTO) {
+    public CompanyLoginResponseDTO login(
+            CompanyLoginDTO companyLoginDTO
+    ) {
 
+        // Verifica se os dados foram enviados.
+        if (companyLoginDTO == null
+                || companyLoginDTO.email() == null
+                || companyLoginDTO.password() == null
+                || companyLoginDTO.email().isBlank()
+                || companyLoginDTO.password().isBlank()) {
+
+            throw new LoginException();
+        }
+
+        // Busca a empresa pelo e-mail.
         CompanyEntity companyEntity = companyRepository
                 .findByEmail(companyLoginDTO.email())
                 .orElseThrow(LoginException::new);
 
+        // Compara a senha informada com a senha criptografada.
         boolean passwordMatches = passwordEncoder.matches(
                 companyLoginDTO.password(),
                 companyEntity.getPassword()
@@ -37,11 +51,13 @@ public class CompanyLoginUseCase {
             throw new LoginException();
         }
 
+        // Gera o JWT para a empresa autenticada.
         String token = jwtProvider.generateToken(
                 companyEntity.getId(),
                 "COMPANY"
         );
 
+        // Retorna o token ao cliente.
         return new CompanyLoginResponseDTO(token);
     }
 }

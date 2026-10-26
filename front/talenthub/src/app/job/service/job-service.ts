@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { JobDTO } from '../interface/job-dto-interface';
 import { JobResponseDTO } from '../interface/job-response.interface';
+import { JobUpdateDTO } from '../interface/job-update-dto.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { JobResponseDTO } from '../interface/job-response.interface';
 
 export class JobService {
 
-  private apiUrl = 'http://localhost:8080/vagas';
+  private apiUrl = 'http://localhost:8081/vagas';
 
   constructor(private http: HttpClient) {}
 
@@ -22,15 +23,14 @@ export class JobService {
   }
 
   public updateJob(
-    jobId: string,
-    job: JobDTO
-  ): Observable<JobResponseDTO> {
-    return this.http.put<JobResponseDTO>(
-      `${this.apiUrl}/atualizar/${jobId}`,
-      job
-    );
-  }
-
+  jobId: string,
+  job: JobUpdateDTO
+): Observable<JobResponseDTO> {
+  return this.http.put<JobResponseDTO>(
+    `${this.apiUrl}/atualizar/${jobId}`,
+    job
+  );
+}
   public deleteJob(jobId: string): Observable<string> {
     return this.http.delete(
       `${this.apiUrl}/deletar/${jobId}`,
@@ -45,4 +45,12 @@ export class JobService {
       `${this.apiUrl}/buscar?name=${encodeURIComponent(name)}`
     );
   }
+
+public findJobById(jobId: string): Observable<JobResponseDTO> {
+  return this.http.get<JobResponseDTO>(
+    `${this.apiUrl}/${jobId}`
+  );
+}
+
+
 }

@@ -1,4 +1,3 @@
-
 package com.erickleo.talenthub_api.modules.candidate.service;
 
 import com.erickleo.talenthub_api.modules.candidate.dto.CandidateResponseDTO;
@@ -7,26 +6,23 @@ import com.erickleo.talenthub_api.modules.candidate.entity.CandidateEntity;
 import com.erickleo.talenthub_api.modules.candidate.exception.CandidateExistingEmailORCPFException;
 import com.erickleo.talenthub_api.modules.candidate.exception.CandidateNotUpdateException;
 import com.erickleo.talenthub_api.modules.candidate.repository.CandidateRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import java.util.UUID;
 
 @Service
 public class CandidateUpdateUseCase {
 
-    private final CandidateRepository candidateRepository;
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private CandidateRepository candidateRepository;
 
-    public CandidateUpdateUseCase(
-            CandidateRepository candidateRepository,
-            PasswordEncoder passwordEncoder
-    ) {
-        this.candidateRepository = candidateRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public CandidateResponseDTO updateCandidate(UUID id, CandidateUpdateDTO candidateDTO) {
 
@@ -55,7 +51,10 @@ public class CandidateUpdateUseCase {
         }
 
         if (!authenticatedCandidateId.equals(id)) {
-            throw new CandidateNotUpdateException();
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN,
+                    "Você não pode atualizar o cadastro de outro candidato."
+            );
         }
 
         CandidateEntity candidateEntity = candidateRepository.findById(id)

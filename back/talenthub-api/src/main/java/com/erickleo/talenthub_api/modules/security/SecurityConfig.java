@@ -4,13 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -25,95 +31,58 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(
-            HttpSecurity http
-    ) throws Exception {
-
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // Desativa o CSRF para esta API que utiliza JWT.
+                .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
-
-                // Não utiliza sessão HTTP para manter a autenticação.
                 .sessionManagement(session ->
-                        session.sessionCreationPolicy(
-                                SessionCreationPolicy.STATELESS
-                        )
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-
-                // Define as rotas públicas e protegidas.
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                        // Rotas públicas: login e cadastro.
-                        .requestMatchers(
-                                "/candidato/login",
-                                "/empresa/login",
-                                "/candidato/criar",
-                                "/empresa/criar"
-                        ).permitAll()
+                        // Endpoints Públicos
+                        .requestMatchers(HttpMethod.POST, "/candidato/criar").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/empresa/criar").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/candidato/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/empresa/login").permitAll()
 
-                        // Apenas candidatos podem se candidatar a vagas.
-                        .requestMatchers(
-                                HttpMethod.POST,
-                                "/candidato/candidatar/**"
-                        ).hasRole("CANDIDATE")
+                        // Endpoints de Candidato
+                        .requestMatchers(HttpMethod.GET, "/candidato/**").hasRole("CANDIDATE")
+                        .requestMatchers(HttpMethod.PUT, "/candidato/**").hasRole("CANDIDATE")
+                        .requestMatchers(HttpMethod.DELETE, "/candidato/**").hasRole("CANDIDATE")
+                        .requestMatchers(HttpMethod.POST, "/candidato/candidatar/**").hasRole("CANDIDATE")
 
-                        // Apenas candidatos podem atualizar seus dados.
-                        .requestMatchers(
-                                HttpMethod.PUT,
-                                "/candidato/atualizar/**"
-                        ).hasRole("CANDIDATE")
+                        // Endpoints de Empresa
+                        .requestMatchers(HttpMethod.GET, "/empresa/**").hasRole("COMPANY")
+                        .requestMatchers(HttpMethod.PUT, "/empresa/**").hasRole("COMPANY")
+                        .requestMatchers(HttpMethod.DELETE, "/empresa/**").hasRole("COMPANY")
 
-                        // Apenas candidatos podem excluir seus cadastros.
-                        .requestMatchers(
-                                HttpMethod.DELETE,
-                                "/candidato/deletar/**"
-                        ).hasRole("CANDIDATE")
+                        // Vagas
+                        .requestMatchers(HttpMethod.POST, "/vagas/**").hasRole("COMPANY")
+                        .requestMatchers(HttpMethod.PUT, "/vagas/**").hasRole("COMPANY")
+                        .requestMatchers(HttpMethod.DELETE, "/vagas/**").hasRole("COMPANY")
+                        .requestMatchers(HttpMethod.GET, "/vagas/**").hasAnyRole("CANDIDATE", "COMPANY")
 
-                        // Apenas empresas podem criar vagas.
-                        .requestMatchers(
-                                HttpMethod.POST,
-                                "/vagas/criar"
-                        ).hasRole("COMPANY")
-
-                        // Apenas empresas podem atualizar vagas.
-                        .requestMatchers(
-                                HttpMethod.PUT,
-                                "/vagas/atualizar/**"
-                        ).hasRole("COMPANY")
-
-                        // Apenas empresas podem excluir vagas.
-                        .requestMatchers(
-                                HttpMethod.DELETE,
-                                "/vagas/deletar/**"
-                        ).hasRole("COMPANY")
-
-                        // Candidatos e empresas podem pesquisar vagas.
-                        .requestMatchers(
-                                HttpMethod.GET,
-                                "/vagas/buscar"
-                        ).hasAnyRole("CANDIDATE", "COMPANY")
-
-                        // Apenas empresas podem pesquisar candidatos.
-                        .requestMatchers(
-                                HttpMethod.GET,
-                                "/candidato/buscar"
-                        ).hasRole("COMPANY")
-
-                        .requestMatchers(
-                                HttpMethod.GET,
-                                "/empresa/me"
-                        ).hasRole("COMPANY")
-
-                        // As demais requisições exigem autenticação.
                         .anyRequest().authenticated()
                 )
-
-                // Executa o filtro JWT antes do filtro padrão.
-                .addFilterBefore(
-                        securityFilter,
-                        UsernamePasswordAuthenticationFilter.class
-                );
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        configuration.setAllowedOriginPatterns(List.of("http://localhost:4200", "http://127.0.0.1:4200"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setExposedHeaders(List.of("Authorization", "Content-Type"));
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
+}

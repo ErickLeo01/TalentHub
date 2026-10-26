@@ -4,6 +4,7 @@ import com.erickleo.talenthub_api.modules.company.dto.CompanyDTO;
 import com.erickleo.talenthub_api.modules.company.dto.CompanyLoginDTO;
 import com.erickleo.talenthub_api.modules.company.dto.CompanyLoginResponseDTO;
 import com.erickleo.talenthub_api.modules.company.dto.CompanyResponseDTO;
+import com.erickleo.talenthub_api.modules.company.dto.CompanyUpdateDTO;
 import com.erickleo.talenthub_api.modules.company.service.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,11 +42,9 @@ public class CompanyController {
     }
 
     @PutMapping("/atualizar/{id}")
-    public CompanyResponseDTO updateCompany(
-            @PathVariable UUID id,
-            @Valid @RequestBody CompanyDTO companyDTO) {
-
-        return companyUpdateUseCase.updateCompany(id, companyDTO);
+    public CompanyResponseDTO updateCompany(@PathVariable UUID id,
+                                            @Valid @RequestBody CompanyUpdateDTO companyUpdateDTO) {
+        return companyUpdateUseCase.updateCompany(id, companyUpdateDTO);
     }
 
     @DeleteMapping("/deletar/{id}")
@@ -59,7 +58,7 @@ public class CompanyController {
     }
 
     @PostMapping("/login")
-    public CompanyLoginResponseDTO login(@RequestBody CompanyLoginDTO companyLoginDTO) {
+    public CompanyLoginResponseDTO login(@Valid @RequestBody CompanyLoginDTO companyLoginDTO) {
         return companyLoginUseCase.login(companyLoginDTO);
     }
 

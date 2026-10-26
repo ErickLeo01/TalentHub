@@ -1,6 +1,7 @@
+
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { JobService } from '../service/job-service';
 import { JobResponseDTO } from '../interface/job-response.interface';
 
@@ -17,14 +18,22 @@ export class JobList implements OnInit {
   errorMessage: string = '';
 
   constructor(
-    private jobService: JobService
+    private jobService: JobService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.findJobs();
+    this.route.queryParamMap.subscribe(params => {
+      const name = params.get('name');
+
+      if (name) {
+        this.findJobsByName(name);
+      } else {
+        this.findJobs();
+      }
+    });
   }
 
-  // Busca todas as vagas usando uma pesquisa vazia.
   public findJobs(): void {
     this.loading = true;
     this.errorMessage = '';
@@ -34,10 +43,30 @@ export class JobList implements OnInit {
         this.jobs = response;
         this.loading = false;
       },
-
       error: (error) => {
         console.error('Erro ao buscar vagas:', error);
         this.errorMessage = 'Não foi possível buscar as vagas.';
+        this.loading = false;
+      }
+    });
+  }
+
+  public findJobsByName(name: string): void {
+    this.loading = true;
+    this.errorMessage = '';
+
+    this.jobService.findJobByName(name).subscribe({
+      next: (response) => {
+        this.jobs = response;
+        this.loading = false;
+
+        if (response.length === 0) {
+          this.errorMessage = 'Nenhuma vaga encontrada com esse nome.';
+        }
+      },
+      error: (error) => {
+        console.error('Erro ao buscar vaga:', error);
+        this.errorMessage = 'Não foi possível buscar a vaga.';
         this.loading = false;
       }
     });
